@@ -1,21 +1,17 @@
-﻿using System;
-using UnityEngine;
-
-// TODO:
-// * optimize layers for colliders and raycast
-// * RAYCAST to quad
+﻿using UnityEngine;
 
 public class RunnerController : MonoBehaviour
 {
 	public float ForwardSpeed = 3;
 	public float SideSpeed = 1;
 
+	public readonly TrackKeeper TrackKeeper = new TrackKeeper();
 	private GameObject leftStoper;
 	private GameObject rightStoper;
 
 	private float? sideMoveDirection;
 	private const float MaxRaycastLen = 100f;
-	private const int TrackLayer = 7;
+	private const int TrackLayer = 1 << 8;
 
 	void Awake()
 	{
@@ -41,11 +37,14 @@ public class RunnerController : MonoBehaviour
 		{
 			Vector3 raycastDirection = horizontal.Value * Vector3.right;
 
-			RaycastHit raycastHit;
+			//RaycastHit raycastHit;
 			if (Physics.Raycast(
-				transform.position + raycastDirection, raycastDirection, out raycastHit))
+				transform.position + raycastDirection,
+				raycastDirection,
+				//out raycastHit,
+				MaxRaycastLen, TrackLayer))
 			{
-				Debug.Log(raycastHit.collider.gameObject.name);
+				//Debug.Log(DateTime.Now.Millisecond.ToString() + raycastHit.collider.gameObject.name);
 				sideMoveDirection = horizontal;
 
 				if (horizontal.Value > 0)
@@ -83,30 +82,35 @@ public class RunnerController : MonoBehaviour
 
 		transform.forward = newForward;
 	}
+}
 
-	class InputController
+class InputController
+{
+	public static void GetmovementInfo(out float? horizontal, out float? vertical)
 	{
-		public static void GetmovementInfo(out float? horizontal, out float? vertical)
+		horizontal = null;
+		if (Input.GetKey(KeyCode.A))
 		{
-			horizontal = null;
-			if (Input.GetKey(KeyCode.A))
-			{
-				horizontal = -1f;
-			}
-			else if (Input.GetKey(KeyCode.D))
-			{
-				horizontal = +1f;
-			}
+			horizontal = -1f;
+		}
+		else if (Input.GetKey(KeyCode.D))
+		{
+			horizontal = +1f;
+		}
 
-			vertical = null;
-			if (Input.GetKey(KeyCode.S))
-			{
-				vertical = -1f;
-			}
-			else if (Input.GetKey(KeyCode.W))
-			{
-				vertical = +1f;
-			}
+		vertical = null;
+		if (Input.GetKey(KeyCode.S))
+		{
+			vertical = -1f;
+		}
+		else if (Input.GetKey(KeyCode.W))
+		{
+			vertical = +1f;
 		}
 	}
+}
+
+public class TrackKeeper
+{
+	public GameObject Track;
 }
