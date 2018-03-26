@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BarrierHandler : MonoBehaviour {
 
@@ -10,4 +8,9 @@ public class BarrierHandler : MonoBehaviour {
     {
         Runner.CollideWithBarier();
     }
+
+	private void OnTriggerExit(Collider other)
+	{
+		Runner.StopCollision();
+	}
 }

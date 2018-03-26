@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class RunnerController : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class RunnerController : MonoBehaviour
     private SideMotionController sideMotionController;
 	private ForwardDirectionController forwardDirectionController;
 
-    void Awake()
+	void Awake()
     {
         forwardSpeedController = new ForwardSpeedController(NormalForwardSpeed, NormalForwardSpeedRestoringAxeleration);
         sideMotionController = new SideMotionController(SideSpeed, transform);
@@ -25,8 +26,10 @@ public class RunnerController : MonoBehaviour
 		InputController.GetmovementInfo(out horizontal, out vertical);
 		if (horizontal.HasValue)
 		{
-			if (TrackFinder.ExistTrackInDirection(transform, horizontal.Value))
+			if (onCollisionCount == 0 && TrackFinder.ExistTrackInDirection(transform, horizontal.Value))
+			{
 				sideMotionController.StartSideMotion(horizontal.Value);
+			}
 		}
 		MakeMove();
 	}
@@ -36,7 +39,7 @@ public class RunnerController : MonoBehaviour
 		transform.position += Time.deltaTime *
             (forwardSpeedController.GetForwardSpeedAndTick() * forwardDirectionController.GetMoveDirectionAntTick() +
             sideMotionController.GetTorightSpeed() * transform.right);
-    }
+	}
 
 	internal void StopSideMotion(Vector3 newForward)
 	{
@@ -44,9 +47,17 @@ public class RunnerController : MonoBehaviour
 		forwardDirectionController.SetDirection(newForward);
 	}
 
+	int onCollisionCount;
+
 	internal void CollideWithBarier()
 	{
+		onCollisionCount++;
 		forwardSpeedController.SetMaxCurrentSppen(AfterCollisionForwardSpeed);
 		sideMotionController.StartSideMotion(-sideMotionController.GetTorightSpeed());
+	}
+
+	internal void StopCollision()
+	{
+		onCollisionCount--;
 	}
 }
