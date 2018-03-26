@@ -4,23 +4,22 @@ using UnityEngine;
 class ForwardDirectionController
 {
 	private readonly Transform transform;
-	private Vector3 currentDirection;
+	private Vector3 targetDirection;
 
 	public ForwardDirectionController(Transform transform)
 	{
-		currentDirection = transform.forward;
+		targetDirection = transform.forward;
 		this.transform = transform;
 	}
 
 	internal Vector3 GetMoveDirectionAntTick()
 	{
-		//float currentAngle = Vector3.Angle(transform.forward, currentDirection);
-		transform.forward = Vector3.RotateTowards(transform.forward, currentDirection, 0.01f, 0f);
-		return currentDirection;
+		transform.forward = Vector3.RotateTowards(transform.forward, targetDirection, 0.01f, 0f);
+		return targetDirection;
 	}
 
 	internal void SetDirection(Vector3 newForward)
 	{
-		currentDirection = newForward;
+		targetDirection = newForward;
 	}
 }

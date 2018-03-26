@@ -24,10 +24,12 @@ public class RunnerController : MonoBehaviour
 		float? horizontal;
 		float? vertical;
 		InputController.GetmovementInfo(out horizontal, out vertical);
-		if (horizontal.HasValue)
+		if (horizontal.HasValue && onCollisionCount == 0)
 		{
-			if (onCollisionCount == 0 && TrackFinder.ExistTrackInDirection(transform, horizontal.Value))
+			Vector3? trackDirection = TrackFinder.ExistTrackInDirection(transform, horizontal.Value);
+			if (trackDirection.HasValue)
 			{
+				forwardDirectionController.SetDirection(trackDirection.Value);
 				sideMotionController.StartSideMotion(horizontal.Value);
 			}
 		}
