@@ -1,17 +1,19 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class DronFactory : MonoBehaviour {
 
 	public GameObject Target;
-	public DroneScript Dron;
+	public DroneScript DronExample;
 
-	private const float Interval = 1;
+	private List<DroneScript> pool = new List<DroneScript>();
+	private const float Interval = 3;
 	private float lastActivationTime;
 
 	// Use this for initialization
 	void Start () {
-		Dron.gameObject.SetActive(false);
-		Dron.Target = Target;
+		DronExample.gameObject.SetActive(false);
+		DronExample.Target = Target;
 		lastActivationTime = Time.time;
 	}
 	
@@ -19,9 +21,37 @@ public class DronFactory : MonoBehaviour {
 	void Update () {
 		if (Time.time > lastActivationTime + Interval)
 		{
-			Dron.transform.position = Target.transform.position + 20 * Target.transform.forward;
-			Dron.gameObject.SetActive(true);
-			lastActivationTime = Time.time + 1000;
+			DroneScript newOne = EngageDron();
+			Debug.Log(newOne.name);
+			newOne.transform.position =
+				Target.transform.position
+				+ 20 * Target.transform.forward
+				+ 2 * Mathf.Sign(Random.value - 0.5f) * Target.transform.right
+				+ 4 * Vector3.up;
+			newOne.gameObject.SetActive(true);
+			lastActivationTime = Time.time;
 		}
+	}
+
+	DroneScript EngageDron()
+	{
+		if (pool.Count == 0)
+		{
+			DroneScript newDrone = Instantiate(DronExample);
+			newDrone.Owner = this;
+			return newDrone;
+		}
+		else
+		{
+			var newOne = pool[pool.Count - 1];
+			pool.RemoveAt(pool.Count - 1);
+			return newOne;
+		}
+	}
+
+	public void FreeDrone(DroneScript droneScript)
+	{
+		droneScript.gameObject.SetActive(false);
+		pool.Add(droneScript);
 	}
 }

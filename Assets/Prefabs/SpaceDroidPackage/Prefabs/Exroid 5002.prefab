@@ -326,7 +326,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4000013482044542}
   - component: {fileID: 95000011553861148}
-  m_Layer: 0
+  - component: {fileID: 135656441217280002}
+  - component: {fileID: 114853724355087014}
+  m_Layer: 12
   m_Name: Exroid 5002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -525,9 +527,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013494599658}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.10000004, y: 0.10000001, z: 0.10000002}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.0043700957, z: -0.00070218556}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children:
   - {fileID: 4000010803477160}
   - {fileID: 4000011250821650}
@@ -1425,3 +1427,30 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114853724355087014
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013494599658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b44816bb1e5a9474d96e0342c6ab86ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HangingHeight: 2
+  VerticalSpeed: 2
+  Target: {fileID: 0}
+  Owner: {fileID: 0}
+--- !u!135 &135656441217280002
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013494599658}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 3
+  m_Center: {x: 0, y: 0, z: 0}
