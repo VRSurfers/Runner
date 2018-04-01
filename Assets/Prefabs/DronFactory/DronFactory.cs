@@ -5,8 +5,9 @@ public class DronFactory : MonoBehaviour {
 
 	public GameObject Target;
 	public DroneScript DronExample;
+	public ExplosionFactory ExplosionFactory;
 
-	private List<DroneScript> pool = new List<DroneScript>();
+	private Stack<DroneScript> pool = new Stack<DroneScript>();
 	private const float Interval = 3;
 	private float lastActivationTime;
 
@@ -22,7 +23,6 @@ public class DronFactory : MonoBehaviour {
 		if (Time.time > lastActivationTime + Interval)
 		{
 			DroneScript newOne = EngageDron();
-			Debug.Log(newOne.name);
 			newOne.transform.position =
 				Target.transform.position
 				+ 20 * Target.transform.forward
@@ -35,23 +35,19 @@ public class DronFactory : MonoBehaviour {
 
 	DroneScript EngageDron()
 	{
+		DroneScript newDrone;
 		if (pool.Count == 0)
-		{
-			DroneScript newDrone = Instantiate(DronExample);
-			newDrone.Owner = this;
-			return newDrone;
-		}
+			newDrone = Instantiate(DronExample, transform);
 		else
-		{
-			var newOne = pool[pool.Count - 1];
-			pool.RemoveAt(pool.Count - 1);
-			return newOne;
-		}
+			newDrone = pool.Pop();
+		return newDrone;
 	}
 
-	public void FreeDrone(DroneScript droneScript)
+	public void FreeDrone(DroneScript droneScript, bool withExplosion)
 	{
+		if (withExplosion)
+			ExplosionFactory.Boom(droneScript.transform);
 		droneScript.gameObject.SetActive(false);
-		pool.Add(droneScript);
+		pool.Push(droneScript);
 	}
 }
