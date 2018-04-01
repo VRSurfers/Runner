@@ -5,14 +5,18 @@ using UnityEngine.SceneManagement;
 
 public class TrackGenerator : MonoBehaviour {
 
-    public List<GameObject> cars = new List<GameObject>();
-    public List<GameObject> barriers = new List<GameObject>();
+    public GameObject Barriers;
     public GameObject player;
-    float LastPositin = 13;
-    int PreviouseRoad = 1;
-    float deltaDistance = 7.0f;
-    float longDeltaDistance = 11.0f;
-    float winDistance = 510.0f;
+
+    private Queue<GameObject> cars = new Queue<GameObject>();
+    private float LastPosition = 13.0f;
+    private float FirstPosition = 13.0f;
+    private int PreviouseRoad = 1;
+    private float deltaDistance = 7.0f;
+    private float longDeltaDistance = 11.0f;
+    private int lengthOfVisibleTrack = 12;
+    private float winDistance = 580.0f;
+    private float endOfGeneration = 500.0f;
 
     enum CoordinatesOfTrack
     {
@@ -28,45 +32,54 @@ public class TrackGenerator : MonoBehaviour {
         right
     }
 
-    void Start () {
-        GeneratePath();
+    void Start()
+    {
+        cars = GetObstacles();
+        for (int i = 0; i < lengthOfVisibleTrack; i++)
+        {
+            GeneratePath();
+        }
+        
 	}
 
-    private void Update()
+    void Update()
     {
-        if (player.transform.position.z > winDistance)
+        if (NewRespawn() && player.transform.position.z < endOfGeneration)
         {
-            SceneManager.LoadScene("Menu");
+            for (int i = 0; i < lengthOfVisibleTrack / 2; i++)
+            {
+                GeneratePath();
+            }
         }
+        CheckTheWin();
     }
 
-    void GeneratePath()
+    private void GeneratePath()
     {
-        for (int i = 0; i < 54; i++)
+        int path = Random.Range(0, 3);
+        if (Mathf.Abs(path-PreviouseRoad) == 2)
         {
-            int path = Random.Range(0, 3);
-            if (path != (int)Tracks.center && path != PreviouseRoad)
-            {
-                LastPositin += longDeltaDistance;
-            }
-            else
-            {
-                LastPositin += deltaDistance;
-            }
-            for (int j = 0; j < 3; j++)
-            {
-                if (j != path)
-                {
-                    int positionX = GetXPosition(j);
-                    int index = Random.Range(0, cars.Count);
-                    Instantiate(cars[index], new Vector3(positionX, cars[index].transform.position.y, LastPositin), cars[index].transform.rotation);
-                }
-            }
-            PreviouseRoad = path;
+            LastPosition += longDeltaDistance;
         }
+        else
+        {
+            LastPosition += deltaDistance;
+        }
+        for (int j = 0; j < 3; j++)
+        {
+            if (j != path)
+            {
+                int positionX = GetXPosition(j);
+                GameObject currentObstacle = cars.Dequeue();
+                currentObstacle.SetActive(true);
+                currentObstacle.transform.position = new Vector3(positionX, currentObstacle.transform.position.y, LastPosition);
+                cars.Enqueue(currentObstacle);
+            }
+        }
+        PreviouseRoad = path;
     }
 
-    int GetXPosition(int trackNum)
+    private int GetXPosition(int trackNum)
     {
         if (trackNum == (int)Tracks.left)
         {
@@ -81,4 +94,38 @@ public class TrackGenerator : MonoBehaviour {
             return (int)CoordinatesOfTrack.right;
         }
     }
+
+    private Queue<GameObject> GetObstacles()
+    {
+        GameObject[] obstacles = GameObject.FindGameObjectsWithTag("Barriers");
+        var queueOfObstacles = new Queue<GameObject>();
+        foreach (var obstacle in obstacles)
+        {
+            queueOfObstacles.Enqueue(obstacle);
+        }
+        return queueOfObstacles;
+    }
+
+    private void CheckTheWin()
+    {
+        if (player.transform.position.z > winDistance)
+        {
+            SceneManager.LoadScene("Menu");
+        }
+    }
+
+    private bool NewRespawn()
+    {
+        if (player.transform.position.z > (LastPosition + FirstPosition) / 2 + longDeltaDistance)
+        {
+            FirstPosition = player.transform.position.z;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
 }
