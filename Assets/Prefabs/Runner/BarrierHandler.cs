@@ -11,6 +11,6 @@ public class BarrierHandler : MonoBehaviour {
 
 	private void OnTriggerExit(Collider other)
 	{
-		Runner.StopCollision();
+        Runner.StopCollision();
 	}
 }

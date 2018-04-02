@@ -1,12 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class TrackGenerator : MonoBehaviour {
 
     public GameObject Barriers;
     public GameObject player;
+    public Animator animator;
+    public Image black;
+    public string sceneName;
 
     private Queue<GameObject> cars = new Queue<GameObject>();
     private float LastPosition = 13.0f;
@@ -110,7 +114,7 @@ public class TrackGenerator : MonoBehaviour {
     {
         if (player.transform.position.z > winDistance)
         {
-            SceneManager.LoadScene("Menu");
+            StartCoroutine(Fade());
         }
     }
 
@@ -125,6 +129,13 @@ public class TrackGenerator : MonoBehaviour {
         {
             return false;
         }
+    }
+
+    private IEnumerator Fade()
+    {
+        animator.SetBool("Fade", true);
+        yield return new WaitUntil(() => black.color.a == 1);
+        SceneManager.LoadScene(sceneName);
     }
 
 
