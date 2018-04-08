@@ -26,8 +26,8 @@ public class DronFactory : MonoBehaviour {
 			newOne.transform.position =
 				Target.transform.position
 				+ 20 * Target.transform.forward
-				+ 2 * Mathf.Sign(Random.value - 0.5f) * Target.transform.right
-				+ 4 * Vector3.up;
+				+ 3 * Mathf.Sign(Random.value - 0.5f) * Target.transform.right
+				+ 0 * Vector3.up;
 			newOne.gameObject.SetActive(true);
 			lastActivationTime = Time.time;
 		}

@@ -46,10 +46,10 @@ public class DroneScript : MonoBehaviour {
 	void CorrectHeight()
 	{
 		Vector3 position = transform.position;
-		float delta = HangingHeight - transform.position.y;
-		if (Mathf.Abs(delta) > 0.01f)
+		if (HangingHeight != position.y)
 		{
-			position.y = position.y + Mathf.Sign(delta) * VerticalSpeed * Time.deltaTime;
+			float delta = HangingHeight - transform.position.y;
+			position.y += Math.Sign(delta) * Math.Min(VerticalSpeed * Time.deltaTime, Math.Abs(delta));
 			transform.position = position;
 		}
 	}
