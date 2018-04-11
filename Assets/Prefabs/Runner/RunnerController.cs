@@ -7,6 +7,7 @@ public class RunnerController : MonoBehaviour
     public float NormalForwardSpeedRestoringAxeleration = 1;
     public float AfterCollisionForwardSpeed = 2;
     public float SideSpeed = 2;
+    public AudioSource CollisionSound;
 
     private ForwardSpeedController forwardSpeedController;
     private SideMotionController sideMotionController;
@@ -56,6 +57,7 @@ public class RunnerController : MonoBehaviour
 		onCollisionCount++;
 		forwardSpeedController.SetMaxCurrentSppen(AfterCollisionForwardSpeed);
 		sideMotionController.StartSideMotion(-sideMotionController.GetTorightSpeed());
+        CollisionSound.Play();
 	}
 
 	internal void StopCollision()

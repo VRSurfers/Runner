@@ -8,6 +8,7 @@ public class DroneScript : MonoBehaviour {
 	public float FullLifeTime = 10;
 	public float HangingHeight = 2;
 	public float VerticalSpeed = 2;
+    public AudioSource ExplosionSound;
 
 	public GameObject Target;
 	public DronFactory Owner;
@@ -26,6 +27,7 @@ public class DroneScript : MonoBehaviour {
 	internal void Die()
 	{
 		Owner.FreeDrone(this, true);
+        ExplosionSound.Play();
 	}
 
 	// Update is called once per frame

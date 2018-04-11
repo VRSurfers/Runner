@@ -7,14 +7,16 @@ public class Striker : MonoBehaviour
 
 	private const int DroneLayer = 1 << 12;
 	public Camera Camera;
-	
-	// Update is called once per frame
-	void Update () {
+    public AudioSource shot;
+
+    // Update is called once per frame
+    void Update () {
 		if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
 		{
 			Ray ray = Camera.ScreenPointToRay(Input.mousePosition);
 
-			float len = 1000;
+            shot.Play();
+            float len = 1000;
 			ShootingTrace rayModel = RayFactory.Engage();
 			Vector3 start = transform.position + new Vector3(0, 1, 0);
 			Vector3 stop = ray.GetPoint(len);
