@@ -1,19 +1,21 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DroneScript : MonoBehaviour {
 
+	public AudioSource ExplosionSound;
+	public RunnerController Target;
+	public DronManager Owner;
+
 	public float FullLifeTime = 10;
 	public float HangingHeight = 2;
 	public float VerticalSpeed = 2;
-    public AudioSource ExplosionSound;
-
-	public GameObject Target;
-	public DronFactory Owner;
+	public float DistanceOfDaamage = 20f;
+	public float ShootingDeltaTime = 1f;
+	public float DamegePerShot = 1f;
 
 	private float beginLifeTime;
+	private float lastShootTime;
 
 	void Start () {
 		transform.rotation = Quaternion.Euler(-90, 0, 0);
@@ -33,8 +35,22 @@ public class DroneScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		ProcessIsAlive();
+		TryDamageTarget();
 		CorrectHeight();
-		CoorctRotation();
+		CorrectRotation();
+	}
+
+	private void TryDamageTarget()
+	{
+		float currentTime = Time.time;
+		if (currentTime - lastShootTime > ShootingDeltaTime)
+		{
+			if ((transform.position - Target.transform.position).magnitude < DistanceOfDaamage)
+			{
+				lastShootTime = currentTime;
+				Target.HP -= DamegePerShot;
+			}
+		}
 	}
 
 	private void ProcessIsAlive()
@@ -56,7 +72,7 @@ public class DroneScript : MonoBehaviour {
 		}
 	}
 
-	void CoorctRotation()
+	void CorrectRotation()
 	{
 		transform.rotation = Quaternion.Euler(-90, 0, GetZRotOnTarget());
 	}

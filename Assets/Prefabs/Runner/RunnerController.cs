@@ -4,23 +4,30 @@ using UnityEngine;
 public class RunnerController : MonoBehaviour
 {
 	public float NormalForwardSpeed = 5;
-    public float NormalForwardSpeedRestoringAxeleration = 1;
-    public float AfterCollisionForwardSpeed = 2;
-    public float SideSpeed = 2;
-    public AudioSource CollisionSound;
+	public float NormalForwardSpeedRestoringAxeleration = 1;
+	public float AfterCollisionForwardSpeed = 2;
+	public float SideSpeed = 2;
+	public AudioSource CollisionSound;
 
-    private ForwardSpeedController forwardSpeedController;
-    private SideMotionController sideMotionController;
+	private ForwardSpeedController forwardSpeedController;
+	private SideMotionController sideMotionController;
 	private ForwardDirectionController forwardDirectionController;
+	private float hp;
+
+	public float HP
+	{
+		get { return hp; }
+		set { hp = value; }
+	}
 
 	void Awake()
-    {
-        forwardSpeedController = new ForwardSpeedController(NormalForwardSpeed, NormalForwardSpeedRestoringAxeleration);
-        sideMotionController = new SideMotionController(SideSpeed, transform);
+	{
+		forwardSpeedController = new ForwardSpeedController(NormalForwardSpeed, NormalForwardSpeedRestoringAxeleration);
+		sideMotionController = new SideMotionController(SideSpeed, transform);
 		forwardDirectionController = new ForwardDirectionController(transform);
 	}
 
-	void Update ()
+	void Update()
 	{
 		float? horizontal;
 		float? vertical;
@@ -35,13 +42,14 @@ public class RunnerController : MonoBehaviour
 			}
 		}
 		MakeMove();
+		Debug.Log(hp);
 	}
 
 	private void MakeMove()
 	{
 		transform.position += Time.deltaTime *
-            (forwardSpeedController.GetForwardSpeedAndTick() * forwardDirectionController.GetMoveDirectionAntTick() +
-            sideMotionController.GetTorightSpeed() * transform.right);
+			(forwardSpeedController.GetForwardSpeedAndTick() * forwardDirectionController.GetMoveDirectionAntTick() +
+			sideMotionController.GetTorightSpeed() * transform.right);
 	}
 
 	internal void StopSideMotion(Vector3 newForward)
@@ -57,7 +65,7 @@ public class RunnerController : MonoBehaviour
 		onCollisionCount++;
 		forwardSpeedController.SetMaxCurrentSppen(AfterCollisionForwardSpeed);
 		sideMotionController.StartSideMotion(-sideMotionController.GetTorightSpeed());
-        CollisionSound.Play();
+		CollisionSound.Play();
 	}
 
 	internal void StopCollision()

@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class DronFactory : MonoBehaviour {
+public class DronManager : MonoBehaviour {
 
-	public GameObject Target;
+	public RunnerController Target;
 	public DroneScript DronExample;
 	public ExplosionFactory ExplosionFactory;
 
-	private Stack<DroneScript> pool = new Stack<DroneScript>();
+	private Stack<DroneScript> unactiveDrones = new Stack<DroneScript>();
+
 	private const float Interval = 3;
 	private float lastActivationTime;
 
@@ -22,25 +23,25 @@ public class DronFactory : MonoBehaviour {
 	void Update () {
 		if (Time.time > lastActivationTime + Interval)
 		{
-			DroneScript newOne = EngageDron();
-			newOne.transform.position =
-				Target.transform.position
-				+ 20 * Target.transform.forward
-				+ 3 * Mathf.Sign(Random.value - 0.5f) * Target.transform.right
-				+ 0 * Vector3.up;
-			newOne.gameObject.SetActive(true);
+			ProduceDrone();
 			lastActivationTime = Time.time;
 		}
 	}
 
-	DroneScript EngageDron()
+	private void ProduceDrone()
 	{
 		DroneScript newDrone;
-		if (pool.Count == 0)
+		if (unactiveDrones.Count == 0)
 			newDrone = Instantiate(DronExample, transform);
 		else
-			newDrone = pool.Pop();
-		return newDrone;
+			newDrone = unactiveDrones.Pop();
+
+		newDrone.transform.position =
+			Target.transform.position
+			+ 20 * Target.transform.forward
+			+ 3 * Mathf.Sign(Random.value - 0.5f) * Target.transform.right
+			+ 0 * Vector3.up;
+		newDrone.gameObject.SetActive(true);
 	}
 
 	public void FreeDrone(DroneScript droneScript, bool withExplosion)
@@ -48,6 +49,6 @@ public class DronFactory : MonoBehaviour {
 		if (withExplosion)
 			ExplosionFactory.Boom(droneScript.transform);
 		droneScript.gameObject.SetActive(false);
-		pool.Push(droneScript);
+		unactiveDrones.Push(droneScript);
 	}
 }

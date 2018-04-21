@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.31582606, g: 0.26318187, b: 0.3746131, a: 1}
+  m_IndirectSpecularColor: {r: 0.3156496, g: 0.26316765, b: 0.37458304, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -778,6 +778,12 @@ GameObject:
   m_PrefabParentObject: {fileID: 1133543100056208, guid: 1116356557efd374f80f53817f6403a0,
     type: 2}
   m_PrefabInternal: {fileID: 186974017}
+--- !u!114 &186974020 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114596356437658612, guid: 1116356557efd374f80f53817f6403a0,
+    type: 2}
+  m_PrefabInternal: {fileID: 186974017}
+  m_Script: {fileID: 11500000, guid: e67da68dcf6947145a3c395f46c72682, type: 3}
 --- !u!1 &236245319
 GameObject:
   m_ObjectHideFlags: 0
@@ -2703,7 +2709,7 @@ GameObject:
   - component: {fileID: 937584019}
   - component: {fileID: 937584018}
   m_Layer: 0
-  m_Name: DronFactory
+  m_Name: DronsManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2721,7 +2727,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bd5018b9c552ef4fa1ba303e1962441, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Target: {fileID: 186974018}
+  Target: {fileID: 186974020}
   DronExample: {fileID: 1603239644}
   ExplosionFactory: {fileID: 847688631}
 --- !u!4 &937584019
@@ -4641,12 +4647,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b44816bb1e5a9474d96e0342c6ab86ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ExplosionSound: {fileID: 255324646}
+  Target: {fileID: 0}
+  Owner: {fileID: 937584018}
   FullLifeTime: 10
   HangingHeight: 2
   VerticalSpeed: 2
-  ExplosionSound: {fileID: 255324646}
-  Target: {fileID: 186974018}
-  Owner: {fileID: 937584018}
+  DistanceOfDaamage: 20
+  ShootingDeltaTime: 1
+  DamegePerShot: 1
 --- !u!135 &1603239645
 SphereCollider:
   m_ObjectHideFlags: 0
