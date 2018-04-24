@@ -9,8 +9,10 @@ public class Crane : MonoBehaviour {
 
     public Renderer craneRenderer;
     public Material darkerMaterial;
+    public TextMesh Instruction;
     public string sceneName;
     private Material mainMaterial;
+    private static object locker = new object();
 
     public Image black;
     public Animator animator;
@@ -21,7 +23,16 @@ public class Crane : MonoBehaviour {
 
     public void OnPointerClick()
     {
-        StartCoroutine(Fade());
+        if (SystemInfo.supportsGyroscope)
+        {
+            lock (locker)
+            {
+                Instruction.text = "Please wait... Loading level";
+                SceneManager.LoadSceneAsync(sceneName);
+            }
+        }
+        else
+            StartCoroutine(Fade());
     }
 
     public void OnPointerEnter()

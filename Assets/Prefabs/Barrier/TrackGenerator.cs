@@ -21,6 +21,7 @@ public class TrackGenerator : MonoBehaviour {
     private int lengthOfVisibleTrack = 12;
     private float winDistance = 580.0f;
     private float endOfGeneration = 500.0f;
+    private static object locker = new object();
 
     enum CoordinatesOfTrack
     {
@@ -112,10 +113,16 @@ public class TrackGenerator : MonoBehaviour {
 
     private void CheckTheWin()
     {
-        if (player.transform.position.z > winDistance)
+        if (player.transform.position.z > winDistance && SystemInfo.supportsGyroscope)
         {
-            StartCoroutine(Fade());
+            lock (locker)
+            {
+                Debug.Log("In critical section");
+                SceneManager.LoadSceneAsync(sceneName);
+            }
         }
+        else if (player.transform.position.z > winDistance)
+            StartCoroutine(Fade());
     }
 
     private bool NewRespawn()

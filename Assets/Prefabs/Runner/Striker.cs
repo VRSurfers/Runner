@@ -6,10 +6,21 @@ public class Striker : MonoBehaviour
 	public RayFactory RayFactory;
 
 	private const int DroneLayer = 1 << 12;
-	public Camera Camera;
+	private Camera Camera;
+    public Camera MainCamera;
+    public Camera VRCamera;
     public AudioSource shot;
 
-    // Update is called once per frame
+    private void Start()
+    {
+        if (SystemInfo.supportsGyroscope)
+        {
+            Camera = VRCamera;
+        }
+        else
+            Camera = MainCamera;
+    }
+
     void Update () {
 		if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
 		{
