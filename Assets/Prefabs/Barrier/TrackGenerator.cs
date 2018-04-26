@@ -21,7 +21,8 @@ public class TrackGenerator : MonoBehaviour {
     private int lengthOfVisibleTrack = 12;
     private float winDistance = 580.0f;
     private float endOfGeneration = 500.0f;
-    private static object locker = new object();
+    private bool win = false;
+    private bool isGyroscope;
 
     enum CoordinatesOfTrack
     {
@@ -39,12 +40,12 @@ public class TrackGenerator : MonoBehaviour {
 
     void Start()
     {
+        isGyroscope = SystemInfo.supportsGyroscope;
         cars = GetObstacles();
         for (int i = 0; i < lengthOfVisibleTrack; i++)
         {
             GeneratePath();
-        }
-        
+        }      
 	}
 
     void Update()
@@ -113,16 +114,16 @@ public class TrackGenerator : MonoBehaviour {
 
     private void CheckTheWin()
     {
-        if (player.transform.position.z > winDistance && SystemInfo.supportsGyroscope)
+        if (player.transform.position.z > winDistance && isGyroscope && !win)
         {
-            lock (locker)
-            {
-                Debug.Log("In critical section");
-                SceneManager.LoadSceneAsync(sceneName);
-            }
+            win = true;
+            StartCoroutine(AsyncLoad());
         }
-        else if (player.transform.position.z > winDistance)
+        else if (player.transform.position.z > winDistance && !win)
+        {
+            win = true;
             StartCoroutine(Fade());
+        }    
     }
 
     private bool NewRespawn()
@@ -145,5 +146,13 @@ public class TrackGenerator : MonoBehaviour {
         SceneManager.LoadScene(sceneName);
     }
 
+    private IEnumerator AsyncLoad()
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+    }
 
 }

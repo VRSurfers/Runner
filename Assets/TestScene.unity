@@ -897,7 +897,12 @@ Prefab:
         type: 2}
       propertyPath: VRCamera
       value: 
-      objectReference: {fileID: 1461577880}
+      objectReference: {fileID: 186974019}
+    - target: {fileID: 114957439054696330, guid: 1116356557efd374f80f53817f6403a0,
+        type: 2}
+      propertyPath: Camera
+      value: 
+      objectReference: {fileID: 186974019}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1116356557efd374f80f53817f6403a0, type: 2}
   m_IsPrefabParent: 0
@@ -4383,11 +4388,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bcf9b8e74b2cf314fb4994724b73eb5b, type: 2}
   m_IsPrefabParent: 0
---- !u!20 &1461577880 stripped
-Camera:
-  m_PrefabParentObject: {fileID: 20668452719228622, guid: bcf9b8e74b2cf314fb4994724b73eb5b,
-    type: 2}
-  m_PrefabInternal: {fileID: 1461577879}
 --- !u!1 &1461577881 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1345894088779642, guid: bcf9b8e74b2cf314fb4994724b73eb5b,
