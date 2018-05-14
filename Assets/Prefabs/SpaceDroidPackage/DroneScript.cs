@@ -76,4 +76,10 @@ public class DroneScript : PooledObject {
 		a2 = a2 - 90 <= 0 ? +1 : -1;
 		return a2 * a1;
 	}
+
+
+    public void DestroyDrone()
+    {
+        Die();
+    }
 }

@@ -9,8 +9,10 @@ public class Crane : MonoBehaviour {
 
     public Renderer craneRenderer;
     public Material darkerMaterial;
+    public TextMesh Instruction;
     public string sceneName;
     private Material mainMaterial;
+    private bool GameIsLoading = false;
 
     public Image black;
     public Animator animator;
@@ -21,7 +23,17 @@ public class Crane : MonoBehaviour {
 
     public void OnPointerClick()
     {
-        StartCoroutine(Fade());
+        if (SystemInfo.supportsGyroscope && !GameIsLoading)
+        {
+            GameIsLoading = true;
+            Instruction.text = "Please wait... Loading level";
+            StartCoroutine(AsyncLoad());
+        }
+        else if(!GameIsLoading)
+        {
+            GameIsLoading = true;
+            StartCoroutine(Fade());
+        }          
     }
 
     public void OnPointerEnter()
@@ -39,5 +51,15 @@ public class Crane : MonoBehaviour {
         animator.SetBool("Fade", true);
         yield return new WaitUntil(() => black.color.a == 1);
         SceneManager.LoadScene(sceneName);
+    }
+
+    private IEnumerator AsyncLoad()
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+
     }
 }
