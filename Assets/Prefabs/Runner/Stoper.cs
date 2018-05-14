@@ -7,7 +7,7 @@ public class Stoper : MonoBehaviour {
 	void OnTriggerEnter(Collider other)
 	{
 		//Debug.Log("OnTriggerEnter: " + other.gameObject.name + " + " + name);
-		Runner.StopSideMotion(DirectionHelper.GetDirectionFromTrack(other.transform));
+		//Runner.StopSideMotion(DirectionHelper.GetDirectionFromTrack(other.transform));
 	}
 
 	void OnTriggerExit(Collider other)

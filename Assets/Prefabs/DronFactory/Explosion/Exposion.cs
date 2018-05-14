@@ -1,24 +1,24 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Exposion : MonoBehaviour {
+public class Exposion : PooledObject {
 
 	public ParticleSystem ParticleSystem;
 	public ExplosionFactory ExplosionFactory;
 
 	private float startLife;
+    private float duration;
 
-	private void OnEnable()
+    private void OnEnable()
 	{
 		startLife = Time.time;
-	}
+        duration = ParticleSystem.main.duration;
+    }
 
 	// Update is called once per frame
 	void FixedUpdate () {
-		if (Time.time - startLife > ParticleSystem.main.startLifetimeMultiplier + ParticleSystem.main.duration)
+		if (Time.time - startLife > ParticleSystem.main.startLifetimeMultiplier + duration)
 		{
-			ExplosionFactory.Return(ParticleSystem);
+            ReturnToPool();
 		}
 	}
 }

@@ -1,11 +1,11 @@
 ﻿using System;
 using UnityEngine;
 
-public class DroneScript : MonoBehaviour {
+public class DroneScript : PooledObject {
 
 	public AudioSource ExplosionSound;
 	public RunnerController Target;
-	public DronManager Owner;
+    public ExplosionFactory ExplosionFactory;
 
 	public float FullLifeTime = 10;
 	public float HangingHeight = 2;
@@ -14,31 +14,27 @@ public class DroneScript : MonoBehaviour {
 	public float ShootingDeltaTime = 1f;
 	public float DamegePerShot = 1f;
 
-	private float beginLifeTime;
-	private float lastShootTime;
+    private Health health;
+    private float lastShootTime;
 
-	void Start () {
+    void Start () {
 		transform.rotation = Quaternion.Euler(-90, 0, 0);
-	}
-
-	private void OnEnable()
-	{
-		beginLifeTime = Time.time;
+        health = Target.GetComponent<Health>();
 	}
 
 	internal void Die()
 	{
-		Owner.FreeDrone(this, true);
-        ExplosionSound.Play();
+        ExplosionFactory.Boom(transform);
+        ReturnToPool();
+        //ExplosionSound.Play();
 	}
 
 	// Update is called once per frame
 	void Update () {
-		ProcessIsAlive();
-		TryDamageTarget();
 		CorrectHeight();
 		CorrectRotation();
-	}
+        TryDamageTarget();
+    }
 
 	private void TryDamageTarget()
 	{
@@ -48,16 +44,8 @@ public class DroneScript : MonoBehaviour {
 			if ((transform.position - Target.transform.position).magnitude < DistanceOfDaamage)
 			{
 				lastShootTime = currentTime;
-				Target.HP -= DamegePerShot;
+                health.HP -= DamegePerShot;
 			}
-		}
-	}
-
-	private void ProcessIsAlive()
-	{
-		if (Time.time - beginLifeTime > FullLifeTime)
-		{
-			Owner.FreeDrone(this, false);
 		}
 	}
 

@@ -1572,11 +1572,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b44816bb1e5a9474d96e0342c6ab86ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ExplosionSound: {fileID: 0}
+  Target: {fileID: 0}
+  Owner: {fileID: 114812422816614104}
   FullLifeTime: 10
   HangingHeight: 2
   VerticalSpeed: 2
-  Target: {fileID: 0}
-  Owner: {fileID: 114812422816614104}
+  DistanceOfDaamage: 20
+  ShootingDeltaTime: 1
+  DamegePerShot: 1
 --- !u!114 &114630981955135010
 MonoBehaviour:
   m_ObjectHideFlags: 1

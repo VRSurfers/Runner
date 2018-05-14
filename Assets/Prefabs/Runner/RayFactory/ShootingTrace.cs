@@ -28,6 +28,5 @@ public class ShootingTrace : MonoBehaviour
 			RayFactory.Free(this);
 		}
 		material.color = new Color(color.r, color.g, color.b, 1 - liveTime / Duration);
-		Debug.Log(1 - liveTime / Duration);
 	}
 }

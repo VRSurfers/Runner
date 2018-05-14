@@ -14,11 +14,9 @@ TagManager:
   - UI
   - 
   - 
-  - Tracks
-  - Stopers
-  - Barrier
-  - RunnerModel
-  - Drone
+  - 
+  - 
+  - NonCollidable
   - 
   - 
   - 
@@ -28,6 +26,8 @@ TagManager:
   - 
   - 
   - 
+  - PoolPlane
+  - PoolableObject
   - 
   - 
   - 
