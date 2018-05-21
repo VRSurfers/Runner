@@ -165,7 +165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f428d399e1ac6184f973667c85b1e955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 10
+  Speed: 15
 --- !u!1001 &267497853
 Prefab:
   m_ObjectHideFlags: 0
@@ -342,6 +342,11 @@ Prefab:
         type: 2}
       propertyPath: VerticalSpeed
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114114684701057662, guid: 97881f8a1788f584ab9d7027a2e69dbf,
+        type: 2}
+      propertyPath: DamegePerShot
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 97881f8a1788f584ab9d7027a2e69dbf, type: 2}
@@ -703,7 +708,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1024840904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -838,7 +843,7 @@ Prefab:
     - target: {fileID: 114596356437658612, guid: 1116356557efd374f80f53817f6403a0,
         type: 2}
       propertyPath: MaxSideSpeed
-      value: 5
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 65161094390902096, guid: 1116356557efd374f80f53817f6403a0,
         type: 2}
@@ -853,6 +858,15 @@ Prefab:
     - target: {fileID: 114596356437658612, guid: 1116356557efd374f80f53817f6403a0,
         type: 2}
       propertyPath: Capsule
+      value: 
+      objectReference: {fileID: 1828304437}
+    - target: {fileID: 1649865947640548, guid: 1116356557efd374f80f53817f6403a0, type: 2}
+      propertyPath: m_Name
+      value: RunnerModel
+      objectReference: {fileID: 0}
+    - target: {fileID: 114596356437658612, guid: 1116356557efd374f80f53817f6403a0,
+        type: 2}
+      propertyPath: RunnerModel
       value: 
       objectReference: {fileID: 1828304437}
     m_RemovedComponents: []
