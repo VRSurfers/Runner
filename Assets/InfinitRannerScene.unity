@@ -165,7 +165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f428d399e1ac6184f973667c85b1e955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 5
+  Speed: 13
 --- !u!1001 &267497853
 Prefab:
   m_ObjectHideFlags: 0
@@ -843,7 +843,7 @@ Prefab:
     - target: {fileID: 114901958402332848, guid: 1116356557efd374f80f53817f6403a0,
         type: 2}
       propertyPath: Size
-      value: 0.85
+      value: 0.8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1116356557efd374f80f53817f6403a0, type: 2}
@@ -1364,7 +1364,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.2, y: 0.19, z: 0.35}
+  m_Size: {x: 0.15, y: 0.19, z: 0.35}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1950004740
 Prefab:
@@ -1426,7 +1426,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.13, y: 0.11, z: 0.19}
+  m_Size: {x: 0.115, y: 0.11, z: 0.19}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2133998523 stripped
 GameObject:
