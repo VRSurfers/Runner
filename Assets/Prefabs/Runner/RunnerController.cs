@@ -9,6 +9,7 @@ public partial class RunnerController : MonoBehaviour
 
 	private KickTracker kickTracker;
     private float? sideSpeed;
+	private bool isOnCollision;
 
 	private void Awake()
 	{
@@ -20,82 +21,89 @@ public partial class RunnerController : MonoBehaviour
 		float? horizontal;
 		float? vertical;
 		InputController.GetmovementInfo(out horizontal, out vertical);
-		if (horizontal.HasValue && !kickTracker.IsOnKick)
+
+		if (kickTracker.IsOnKick)
 		{
-            TryStartSideMotion(horizontal.Value);
+			kickTracker.Step();
+			return;
 		}
 
-        if (kickTracker.IsOnKick)
-			kickTracker.Step();
-        else
-            MakeMoveAndTryStopSideMotion();
+		if (isOnCollision)
+			horizontal = null; // prevents moving into coolider after rebound
+
+		ProcessMotion(horizontal);
 	}
 
-    private void TryStartSideMotion(float newSideSpeedSign)
-    {
-        if (sideSpeed.HasValue)
-        {
-            sideSpeed = newSideSpeedSign * MaxSideSpeed;
-            return;
-        }
-
-        // We are on track.
-        float xCurrent = transform.position.x;
-        float relativePosition = (xCurrent - MapController.LeftRowX) / MapController.RowWidth;
-
-		if (Math.Abs(relativePosition - Math.Round(relativePosition)) > 0.001)
-			1.ToString();
-
-		// teorically it should has int value.
-		//CommonHelpers.AssertIfTrue(Math.Abs(relativePosition / 1f) > 0.001);
-
-		int trackNumber = (int)Math.Round(relativePosition);
-        // check if we are on outside tracks
-        if (newSideSpeedSign < 0)
-        {
-            if (trackNumber == 0)
-                return;
-        }
-        else
-        {
-            if (trackNumber == MapController.RowCount - 1)
-                return;
-        }
-        sideSpeed = newSideSpeedSign * MaxSideSpeed;
-    }
-
-	private void MakeMoveAndTryStopSideMotion()
+	private void ProcessMotion(float? newSideSpeedSign)
 	{
+		float leftRowX = MapController.LeftRowX;
+		float rowWidth = MapController.RowWidth;
+		float rightRowX = leftRowX + rowWidth * (MapController.RowCount - 1);
+
+		Vector3 oldPositon = transform.position;
+		float xCurrent = oldPositon.x;
+		
+		if (newSideSpeedSign.HasValue)
+			sideSpeed = newSideSpeedSign * MaxSideSpeed;
+		
 		if (sideSpeed.HasValue)
 		{
-			float leftRowX = MapController.LeftRowX;
-			float rowWidth = MapController.RowWidth;
-
-			float displacement;
-			Vector3 oldPositon = transform.position;
-			float xCurrent = oldPositon.x;
-			float maxDisplAbs = Time.deltaTime * MaxSideSpeed;
-
-			double xRelative = (xCurrent - leftRowX) / rowWidth;
-			if (Math.Abs(xRelative - Math.Round(xRelative)) < 0.00001) // we are starting motion
+			float targetX;
+			float maxPotentialDisplacement = Time.deltaTime * sideSpeed.Value;
+			if (maxPotentialDisplacement > 0)
 			{
-				displacement = maxDisplAbs * Math.Sign(sideSpeed.Value);
-			}
-			else
-			{
-				float betweanTracksX = (xCurrent - leftRowX) % rowWidth;
-				float toTrackDist = sideSpeed.Value > 0 ? rowWidth - betweanTracksX : betweanTracksX; // >= 0
-				if (toTrackDist < maxDisplAbs)
+				if (xCurrent + maxPotentialDisplacement > rightRowX)
 				{
-					displacement = toTrackDist * Math.Sign(sideSpeed.Value);
+					targetX = rightRowX;
 					sideSpeed = null;
 				}
 				else
 				{
-					displacement = maxDisplAbs * Math.Sign(sideSpeed.Value);
+					if (newSideSpeedSign == null)
+					{
+						double xRelative = (xCurrent - leftRowX) / rowWidth;
+						double nextRowIndex = Math.Ceiling(xRelative);
+						float nextTrackX = (float)(leftRowX + nextRowIndex * rowWidth);
+						if (xCurrent + maxPotentialDisplacement > nextTrackX)
+						{
+							sideSpeed = null;
+							targetX = nextTrackX;
+						}
+						else
+							targetX = xCurrent + maxPotentialDisplacement;
+					}
+					else
+						targetX = xCurrent + maxPotentialDisplacement;
 				}
 			}
-			transform.position = oldPositon + new Vector3(displacement, 0, 0);
+			else
+			{
+				if (xCurrent + maxPotentialDisplacement < leftRowX)
+				{
+					targetX = leftRowX;
+					sideSpeed = null;
+				}
+				else
+				{
+					if (newSideSpeedSign == null)
+					{
+						double xRelative = (xCurrent - leftRowX) / rowWidth;
+						double nextRowIndex = Math.Floor(xRelative);
+						float nextTrackX = (float)(leftRowX + nextRowIndex * rowWidth);
+						if (xCurrent + maxPotentialDisplacement < nextTrackX)
+						{
+							sideSpeed = null;
+							targetX = nextTrackX;
+						}
+						else
+							targetX = xCurrent + maxPotentialDisplacement;
+					}
+					else
+						targetX = xCurrent + maxPotentialDisplacement;
+				}
+			}
+			oldPositon.x = targetX;
+			transform.position = oldPositon;
 		}
 	}
 
@@ -105,8 +113,16 @@ public partial class RunnerController : MonoBehaviour
         sideSpeed = null;
     }
 
-    internal void SideCollision()
+	internal void StopCollision()
+	{
+		isOnCollision = false;
+	}
+
+	internal void SideCollision()
     {
-        sideSpeed = -(sideSpeed.Value);
+		isOnCollision = true;
+
+		if (!kickTracker.IsOnKick)
+			sideSpeed = -(sideSpeed.Value);
     }
 }

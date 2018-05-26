@@ -4,7 +4,7 @@ public partial class RunnerController
 {
 	class KickTracker
     {
-		private const float FlyTime = 1.1f;
+		private const float FlyTime = 1.2f;
 		private const float AngleSpeed = 360 / FlyTime;
 		private const float Axeleration = 10f;
 		private const float LandingHeight = 0f;

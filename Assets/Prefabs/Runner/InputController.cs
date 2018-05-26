@@ -5,11 +5,11 @@ class InputController
 	public static void GetmovementInfo(out float? horizontal, out float? vertical)
 	{
 		horizontal = null;
-		if (Input.GetKeyDown(KeyCode.A))
+		if (Input.GetKey(KeyCode.A))
 		{
 			horizontal = -1f;
 		}
-		else if (Input.GetKeyDown(KeyCode.D))
+		else if (Input.GetKey(KeyCode.D))
 		{
 			horizontal = +1f;
 		}

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class BarrierHandler : MonoBehaviour {
     public float Size = 0.95f;
@@ -6,15 +7,22 @@ public class BarrierHandler : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (Mathf.Abs(Runner.transform.position.x - other.transform.position.x) < Size)
+		Vector3 runnerPosition = Runner.transform.position;
+		Vector3 carPosition = other.transform.position;
+
+		if (Math.Abs(runnerPosition.x - carPosition.x) < Size)
         {
-            var row = other.transform.parent.GetComponent<CarRowComponent>();
-            float x = row.NextRow.GetFreeX();
-            Runner.FrontCollision(x);
+			CarRowComponent row = other.transform.parent.GetComponent<CarRowComponent>();
+            Runner.FrontCollision(row.NextRow.GetFreeX());
         }
         else
         {
             Runner.SideCollision();
         }
     }
+
+	private void OnTriggerExit(Collider other)
+	{
+		Runner.StopCollision();
+	}
 }
