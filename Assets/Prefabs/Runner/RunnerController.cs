@@ -43,10 +43,13 @@ public partial class RunnerController : MonoBehaviour
         float xCurrent = transform.position.x;
         float relativePosition = (xCurrent - MapController.LeftRowX) / MapController.RowWidth;
 
+		if (Math.Abs(relativePosition - Math.Round(relativePosition)) > 0.001)
+			1.ToString();
+
 		// teorically it should has int value.
 		//CommonHelpers.AssertIfTrue(Math.Abs(relativePosition / 1f) > 0.001);
 
-        int trackNumber = (int)Math.Round(relativePosition);
+		int trackNumber = (int)Math.Round(relativePosition);
         // check if we are on outside tracks
         if (newSideSpeedSign < 0)
         {
