@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ShootingTrace : MonoBehaviour
 {
@@ -19,7 +17,6 @@ public class ShootingTrace : MonoBehaviour
 		material.color = color;
 	}
 	
-	// Update is called once per frame
 	void Update ()
 	{
 		float liveTime = Time.time - awakeTime;

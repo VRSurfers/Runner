@@ -34,7 +34,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4293948559215416}
-  - component: {fileID: 114064090380359136}
   m_Layer: 0
   m_Name: RayFactory
   m_TagString: Untagged
@@ -221,10 +220,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4724038891138458}
   - component: {fileID: 33115641314331370}
-  - component: {fileID: 136639003589306772}
   - component: {fileID: 23783622998010016}
   - component: {fileID: 114288879404121564}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: IntialRay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -734,12 +732,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4564520044281072}
   - component: {fileID: 95881351242886860}
-  - component: {fileID: 114236549876643432}
   - component: {fileID: 114496026202348494}
   - component: {fileID: 54958602973979228}
   - component: {fileID: 65051493080808854}
   - component: {fileID: 114901958402332848}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: Sci-Fi_Soldier
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2084,30 +2081,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HpText: {fileID: 0}
---- !u!114 &114064090380359136
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1121143552234576}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a2e9d25315548e4383d0e9aa6e763e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  WorldMotionController: {fileID: 0}
-  Ray: {fileID: 114288879404121564}
---- !u!114 &114236549876643432
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1824947893841740}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a85c5e349cb17df4b85883ea088c2f95, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114288879404121564
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2119,8 +2092,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92f153a2af768cf4989e0c565b1205d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WorldMotionController: {fileID: 0}
   Duration: 3
-  RayFactory: {fileID: 114064090380359136}
 --- !u!114 &114496026202348494
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2168,8 +2141,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04f76965c5a91c34ba4e343d18017cc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Size: 1
+  Size: 0.8
   Runner: {fileID: 114596356437658612}
+  TrackObjectsManager: {fileID: 0}
 --- !u!114 &114957439054696330
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2181,8 +2155,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85339fd48602782448a5763afb4236dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WorldMotionController: {fileID: 0}
+  DronManager: {fileID: 0}
+  InitialRay: {fileID: 4724038891138458}
   ShootingDelay: 1
-  RayFactory: {fileID: 114064090380359136}
   Camera: {fileID: 20596939661833250}
   shot: {fileID: 0}
 --- !u!124 &124339542120808892
@@ -2192,19 +2168,6 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1237906489693318}
   m_Enabled: 1
---- !u!136 &136639003589306772
-CapsuleCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1222995019476392}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!137 &137199343185144206
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
