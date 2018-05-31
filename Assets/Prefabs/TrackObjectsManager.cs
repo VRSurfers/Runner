@@ -6,6 +6,7 @@ public class TrackObjectsManager : MonoBehaviour
 	class SeriesInfo : IReleaser
 	{
 		public SeriesInfo NextSeries;
+		public PoolingPair? Kit;
 		public readonly PoolingPair?[] Cars;
 		public readonly Transform SeriesTransform;
 		private readonly TrackObjectsManager trackObjectsManager;
@@ -49,6 +50,7 @@ public class TrackObjectsManager : MonoBehaviour
 	private readonly Dictionary<Transform, SeriesInfo> carsToSeries = new Dictionary<Transform, SeriesInfo>();
 
 	private BaseObjectPool[] carPools;
+	private BaseObjectPool[] kitsPools;
 	private BaseObjectPool seriesPool;
 	private SeriesInfo lastSeries;
 
@@ -56,6 +58,7 @@ public class TrackObjectsManager : MonoBehaviour
 	{		
 		seriesPool = new BaseObjectPool(SeriesObjectCollider.transform, transform);
 		carPools = CreatePool(InitialCars, transform);
+		kitsPools = CreatePool(InitialKits, transform);
 		InitDefaultTrack();
 	}
 
@@ -97,6 +100,11 @@ public class TrackObjectsManager : MonoBehaviour
 				carValue.PooledObject.transform.SetParent(null);
 			}
 		}
+		if (seriesInfo.Kit.HasValue)
+		{
+			seriesInfo.Kit.Value.Release();
+			seriesInfo.Kit = null;
+		}
 		PushToTheEnd();
 	}
 
@@ -105,6 +113,7 @@ public class TrackObjectsManager : MonoBehaviour
 		Transform newSeriesTransform = seriesPool.Engage(seriesPosition);
 		var seriesInfo = new SeriesInfo(MapController.RowCount, this, newSeriesTransform);
 		AddCarsToSeries(seriesInfo);
+		AddKitsToSeries(seriesInfo);
 		WorldMotionController.Add(newSeriesTransform, seriesInfo);
 		return seriesInfo;
 	}
@@ -112,7 +121,7 @@ public class TrackObjectsManager : MonoBehaviour
 	private void AddCarsToSeries(SeriesInfo seriesInfo)
 	{
 		Transform seriesTransform = seriesInfo.SeriesTransform;
-		int randomFreeCell = Random.Range(0, MapController.RowCount);
+		int randomFreeCell = MapController.GetRandomTrackNumber();
 		PoolingPair?[] cars = seriesInfo.Cars;
 		for (int i = 0; i < cars.Length; i++)
 		{
@@ -126,10 +135,23 @@ public class TrackObjectsManager : MonoBehaviour
 				BaseObjectPool carPool = carPools[randomPoolNumber];
 				Transform carTransform = carPool.Engage(new Vector3());
 				carTransform.SetParent(seriesTransform);
-				carTransform.localPosition = new Vector3(MapController.LeftRowX + i * MapController.RowWidth, carPool.InitialObjectTransform.position.y, 0);
+				carTransform.localPosition = new Vector3(MapController.GetTrackX(i), carPool.InitialObjectTransform.position.y, 0);
 				cars[i] = new PoolingPair(carTransform, carPool);
 				carsToSeries.Add(carTransform, seriesInfo);
 			}
+		}
+	}
+
+	private void AddKitsToSeries(SeriesInfo seriesInfo)
+	{
+		const float kitsProba = 0.4f;
+		if (Random.value < kitsProba)
+		{
+			BaseObjectPool randomPool = kitsPools[Random.Range(0, kitsPools.Length)];
+			Transform kit = randomPool.Engage(new Vector3());
+			kit.transform.SetParent(seriesInfo.SeriesTransform);
+			kit.localPosition = new Vector3(MapController.GetTrackX(MapController.GetRandomTrackNumber()), 0.5f, MapController.DistanceByZ / 2);
+			seriesInfo.Kit = new PoolingPair(kit, randomPool);
 		}
 	}
 

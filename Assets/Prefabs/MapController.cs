@@ -12,4 +12,14 @@ public class MapController : MonoBehaviour {
 	{
 		return LeftRowX + (RowCount - 1) * RowWidth;
 	}
+
+	public int GetRandomTrackNumber()
+	{
+		return Random.Range(0, RowCount);
+	}
+
+	public float GetTrackX(int trackNumber)
+	{
+		return LeftRowX + trackNumber * RowWidth;
+	}
 }
