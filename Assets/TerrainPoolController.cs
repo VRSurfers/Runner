@@ -1,21 +1,22 @@
 ﻿using UnityEngine;
 
-public class TerrainPoolController : MonoBehaviour
+public class TerrainPoolController : MonoBehaviour, IReleaser
 {
 	public WorldMotionController WorldMotionController;
 	public float OffsetFromOther;
-	public TerrainPiece Piece1;
-	public TerrainPiece Piece2;
+	public Transform Piece1;
+	public Transform Piece2;
 
 	private void Start()
     {
-		WorldMotionController.Add(Piece1.transform);
-		WorldMotionController.Add(Piece2.transform);
+		WorldMotionController.Add(Piece1, this);
+		WorldMotionController.Add(Piece2, this);
 	}
 
-	internal void OnCollision(TerrainPiece terrainPlate)
+	public void Return(Transform objTransform)
 	{
-		terrainPlate.transform.position = new Vector3(0, 0, (terrainPlate == Piece1 ? Piece2 : Piece1).transform.position.z + OffsetFromOther);
+		objTransform.position = new Vector3(0, 0, (objTransform == Piece1 ? Piece2 : Piece1).transform.position.z + OffsetFromOther);
+		WorldMotionController.Add(objTransform, this);
 	}
 }
 

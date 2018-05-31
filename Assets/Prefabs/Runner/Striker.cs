@@ -2,14 +2,22 @@
 
 public class Striker : MonoBehaviour
 {
+	public WorldMotionController WorldMotionController;
+	public DronManager DronManager;
+	public Transform InitialRay;
     public float ShootingDelay = 1f;
-	public RayFactory RayFactory;
-    public Camera Camera;
+	private BaseObjectPool pool;
+	public Camera Camera;
     public AudioSource shot;
 
     private float lastShoot;
 
-    void Update () {       
+	public void Start()
+	{
+		pool = new BaseObjectPool(InitialRay, DronManager.transform);
+	}
+
+	void Update () {       
 		if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
 		{
             if (lastShoot + ShootingDelay > Time.time)
@@ -24,15 +32,14 @@ public class Striker : MonoBehaviour
             const float shootingLength = 1000f;
             if (Physics.Raycast(ray, out raycastHit, shootingLength))
             {
-                var droneScript = raycastHit.transform.GetComponent<DroneScript>();
-                if (droneScript != null)
-                    droneScript.Die();
                 rayStopPoint = raycastHit.transform.position;
-            }
+				if (raycastHit.transform.gameObject.layer == 17)
+					DronManager.DestroyDrone(raycastHit.transform);
+			}
             else
                 rayStopPoint = ray.GetPoint(shootingLength);
 
-            ShootingTrace rayModel = RayFactory.Engage();
+            Transform rayModel = pool.Engage(new Vector3());
             Vector3 start = transform.position + new Vector3(0, 0, 0.1f);
             rayModel.gameObject.SetActive(true);
             rayModel.transform.position = (start + rayStopPoint) / 2;
@@ -41,6 +48,7 @@ public class Striker : MonoBehaviour
             const float rayThickness = 0.05f;
             rayModel.transform.localScale
                 = new Vector3(rayThickness, rayTovector.magnitude, rayThickness);
+			WorldMotionController.Add(rayModel, pool);
         }
 	}
 }

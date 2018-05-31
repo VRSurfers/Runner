@@ -113,11 +113,11 @@ public class GvrControllerInput : MonoBehaviour {
 
   /// Event handler for receiving button, touchpad, and IMU updates from the controller.
   /// Use this handler to update app state based on controller input.
-  public static event Action OnControllerInputUpdated;
+  public static event System.Action OnControllerInputUpdated;
 
   /// Event handler for receiving a second notification callback, after all
   /// `OnControllerInputUpdated` events have fired.
-  public static event Action OnPostControllerInputUpdated;
+  public static event System.Action OnPostControllerInputUpdated;
 
   /// Event handler for when the connection state of the controller changes.
   public delegate void OnStateChangedEvent(GvrConnectionState state, GvrConnectionState oldState);

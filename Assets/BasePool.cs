@@ -62,99 +62,44 @@ public class BasePool<T> : BasePoolRelease
     }
 }
 
-public class PoolWithMoving<T> : BasePool<T>
-    where T : PooledObject
+
+public class BaseObjectPool : IReleaser
 {
-    public T InitialObject;
-    public WorldMotionController WorldMotionController;
-
-    public override void Awaiking()
-    {
-        InitialComponent = InitialObject;
-		InitialObject.BindToParent(this);
-        base.Awaiking();
-    }
-
-    public void AddExistingToPool(T poolObject)
-    {
-		poolObject.BindToParent(this);
-        WorldMotionController.Add(poolObject.transform);
-        DictionaryOfObjectsInUse.Add(poolObject.gameObject, poolObject);
-    }
-
-    public override T EngageOne(Vector3 position)
-    {
-        var newObe = base.EngageOne(position);
-		newObe.BindToParent(this);
-        WorldMotionController.Add(newObe.transform);
-        return newObe;
-    }
-
-    public override void Free(T component)
-    {
-        base.Free(component);
-        WorldMotionController.Remove(component.transform);
-    }
-}
-
-
-public class ObjectPool<T> where T : Component
-{
-	private T _initialObject;
+	public readonly Transform InitialObjectTransform;
 	private Transform _parentTransform;
-	private Stack<T> notUsedObjects = new Stack<T>();
+	private Stack<Transform> notUsedObjects = new Stack<Transform>();
 
-	public ObjectPool(T initialObject, Transform parentTransform)
+	public BaseObjectPool(Transform initialObjectTransform, Transform parentTransform)
 	{
-		_initialObject = initialObject;
+		InitialObjectTransform = initialObjectTransform;
 		_parentTransform = parentTransform;
-		_initialObject.gameObject.SetActive(false);
+		InitialObjectTransform.gameObject.SetActive(false);
 	}
 
-	public virtual T EngageOne(Vector3 position)
+	public virtual Transform Engage(Vector3 position)
 	{
-		T newObject;
+		Transform newObjectTransform;
 		if (notUsedObjects.Count == 0)
 		{
-			newObject = GameObject.Instantiate(_initialObject, _parentTransform);
+			newObjectTransform = GameObject.Instantiate(InitialObjectTransform, _parentTransform);
 		}
 		else
 		{
-			newObject = notUsedObjects.Pop();
+			newObjectTransform = notUsedObjects.Pop();
 		}
-		newObject.gameObject.SetActive(true);
-		newObject.transform.position = position;
-		return newObject;
+		newObjectTransform.gameObject.SetActive(true);
+		newObjectTransform.position = position;
+		return newObjectTransform;
 	}
 
-	public virtual void Free(T component)
+	public virtual void Release(Transform obj)
 	{
-		GameObject gameObject = component.gameObject;
-		gameObject.SetActive(false);
-		notUsedObjects.Push(component);
-	}
-}
-
-public class MovingObjectPool<T> : ObjectPool<T> 	where T : Component
-{
-	private WorldMotionController _worldMotionController;
-
-	public MovingObjectPool(T initialObject, Transform parentTransform, WorldMotionController worldMotionController)
-		: base(initialObject, parentTransform)
-	{
-		_worldMotionController = worldMotionController;
+		obj.gameObject.SetActive(false);
+		notUsedObjects.Push(obj);
 	}
 
-	public override T EngageOne(Vector3 position)
+	public void Return(Transform objTransform)
 	{
-		T newObject = base.EngageOne(position);
-		_worldMotionController.Add(newObject.transform);
-		return newObject;
-	}
-
-	public override void Free(T component)
-	{
-		base.Free(component);
-		_worldMotionController.Remove(component.transform);
+		Release(objTransform);
 	}
 }

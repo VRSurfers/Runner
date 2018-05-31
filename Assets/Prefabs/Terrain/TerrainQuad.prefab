@@ -22,7 +22,6 @@ GameObject:
   - component: {fileID: 33624658161949490}
   - component: {fileID: 23649337161007890}
   - component: {fileID: 65242110679843482}
-  - component: {fileID: 114539585072090400}
   m_Layer: 21
   m_Name: TerrainQuad
   m_TagString: Untagged
@@ -37,8 +36,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1804974401662014}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0, z: 25}
-  m_LocalScale: {x: 6, y: 50, z: 1.0000005}
+  m_LocalPosition: {x: 0, y: -0, z: -30}
+  m_LocalScale: {x: 6, y: 60, z: 1.0000005}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -96,15 +95,3 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 0.125, z: 1}
   m_Center: {x: 0, y: 0.4375, z: 0}
---- !u!114 &114539585072090400
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1804974401662014}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5e7d3e458396f24d944ecda096c7300, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TerrainPoolController: {fileID: 0}

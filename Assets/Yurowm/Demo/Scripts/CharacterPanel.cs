@@ -13,7 +13,7 @@ public class CharacterPanel : MonoBehaviour {
 	public Button buttonPrefab;
 	public Slider motionSpeed;
 
-	Actions actions;
+	Action actions;
 	PlayerController controller;
 	Camera[] cameras;
 
@@ -22,7 +22,7 @@ public class CharacterPanel : MonoBehaviour {
 	}
 
 	void Initialize () {
-		actions = character.GetComponent<Actions> ();
+		actions = character.GetComponent<Action> ();
 		controller = character.GetComponent<PlayerController> ();
 
 		foreach (PlayerController.Arsenal a in controller.arsenal)

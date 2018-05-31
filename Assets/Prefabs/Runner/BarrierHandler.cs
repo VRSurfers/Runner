@@ -1,9 +1,11 @@
 ﻿using System;
 using UnityEngine;
 
-public class BarrierHandler : MonoBehaviour {
+public class BarrierHandler : MonoBehaviour
+{
     public float Size = 0.95f;
     public RunnerController Runner;
+	public TrackObjectsManager TrackObjectsManager;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -12,8 +14,7 @@ public class BarrierHandler : MonoBehaviour {
 
 		if (Math.Abs(runnerPosition.x - carPosition.x) < Size)
         {
-			CarRowComponent row = other.transform.parent.GetComponent<CarRowComponent>();
-            Runner.FrontCollision(row.NextRow.GetFreeX());
+            Runner.FrontCollision(TrackObjectsManager.GetNextFreeX(other.transform));
         }
         else
         {

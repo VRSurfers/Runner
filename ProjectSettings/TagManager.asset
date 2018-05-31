@@ -16,7 +16,6 @@ TagManager:
   - 
   - 
   - 
-  - NonCollidable
   - 
   - 
   - 
@@ -24,8 +23,9 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
+  - DroneLayer
+  - RunnerLayer
+  - CarLayer
   - PoolPlane
   - PoolableObject
   - 

@@ -68,7 +68,7 @@ public class GvrVideoPlayerTexture : MonoBehaviour {
   /// </remarks>
   private List<Action<string, string>> onExceptionCallbacks;
 
-  private readonly static Queue<Action> ExecuteOnMainThread = new Queue<Action>();
+  private readonly static Queue<System.Action> ExecuteOnMainThread = new Queue<System.Action>();
 
   // Attach a text component to get some debug status info.
   public Text statusText;

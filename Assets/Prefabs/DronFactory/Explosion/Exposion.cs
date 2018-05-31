@@ -3,7 +3,7 @@
 public class Exposion : PooledObject {
 
 	public ParticleSystem ParticleSystem;
-	public ExplosionFactory ExplosionFactory;
+	public WorldMotionController WorldMotionController;
 
 	private float startLife;
     private float duration;
@@ -14,11 +14,10 @@ public class Exposion : PooledObject {
         duration = ParticleSystem.main.duration;
     }
 
-	// Update is called once per frame
-	void FixedUpdate () {
+	void Update () {
 		if (Time.time - startLife > ParticleSystem.main.startLifetimeMultiplier + duration)
 		{
-            ReturnToPool();
+			WorldMotionController.Release(transform);
 		}
 	}
 }

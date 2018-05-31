@@ -1,30 +1,62 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+
 public class WorldMotionController : MonoBehaviour
 {
-    public float Speed = 1f;
-    private HashSet<Transform> movingObjects = new HashSet<Transform>();
+	public float Speed = 10f;
 
-    private void Update()
+	private Dictionary<Transform, IReleaser> movingObjects = new Dictionary<Transform, IReleaser>();
+	private Dictionary<Transform, IReleaserUpdater> updatingObjects = new Dictionary<Transform, IReleaserUpdater>();
+
+	private void Update()
     {
         Vector3 displacemnt = Speed * (-Time.deltaTime) * Vector3.forward;
-        HashSet<Transform>.Enumerator enumerator = movingObjects.GetEnumerator();
-        while (enumerator.MoveNext())
+		Dictionary<Transform, IReleaser>.KeyCollection.Enumerator keysEnumerator = movingObjects.Keys.GetEnumerator();
+        while (keysEnumerator.MoveNext())
         {
-            Transform transform = enumerator.Current.transform;
+            Transform transform = keysEnumerator.Current.transform;
             transform.position += displacemnt;
         }
-        enumerator.Dispose();
+
+		Dictionary<Transform, IReleaserUpdater>.ValueCollection.Enumerator enumerator = updatingObjects.Values.GetEnumerator();
+		while (enumerator.MoveNext())
+		{
+			enumerator.Current.Update();
+		}
     }
 
-    public void Add(Transform transform)
+    public void Add(Transform obj, IReleaser releaser)
     {
-        movingObjects.Add(transform);
+        movingObjects.Add(obj, releaser);
     }
 
-    public void Remove(Transform transform)
-    {
-        movingObjects.Remove(transform);
-    }
+	public void Add(Transform obj, IReleaserUpdater releaserUpdater)
+	{
+		movingObjects.Add(obj, releaserUpdater);
+		updatingObjects.Add(obj, releaserUpdater);
+	}
+
+	public void Release(Transform obj)
+	{
+		IReleaser releaser = movingObjects[obj];
+		movingObjects.Remove(obj);
+		updatingObjects.Remove(obj);
+		releaser.Return(obj);
+	}
+
+	private void OnTriggerEnter(Collider other)
+	{
+		Release(other.transform);
+	}
+}
+
+public interface IReleaser
+{
+	void Return(Transform objTransform);
+}
+
+public interface IReleaserUpdater : IReleaser
+{
+	void Update();
 }

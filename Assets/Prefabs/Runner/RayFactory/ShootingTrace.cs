@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ShootingTrace : MonoBehaviour
 {
+	public WorldMotionController WorldMotionController;
 	public float Duration = 3;
-	public RayFactory RayFactory;
 	private float awakeTime;
 	private Material material;
 	private Color color;
@@ -25,7 +25,7 @@ public class ShootingTrace : MonoBehaviour
 		float liveTime = Time.time - awakeTime;
 		if (liveTime > Duration)
 		{
-			RayFactory.Free(this);
+			WorldMotionController.Release(transform);
 		}
 		material.color = new Color(color.r, color.g, color.b, 1 - liveTime / Duration);
 	}
