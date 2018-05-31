@@ -150,7 +150,7 @@ public class TrackObjectsManager : MonoBehaviour
 			BaseObjectPool randomPool = kitsPools[Random.Range(0, kitsPools.Length)];
 			Transform kit = randomPool.Engage(new Vector3());
 			kit.transform.SetParent(seriesInfo.SeriesTransform);
-			kit.localPosition = new Vector3(MapController.GetTrackX(MapController.GetRandomTrackNumber()), 0.5f, MapController.DistanceByZ / 2);
+			kit.localPosition = new Vector3(MapController.GetTrackX(MapController.GetRandomTrackNumber()), 0.5f, MapController.DistanceByZ * 0.4f);
 			seriesInfo.Kit = new PoolingPair(kit, randomPool);
 		}
 	}
