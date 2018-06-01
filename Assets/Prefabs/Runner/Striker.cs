@@ -11,21 +11,24 @@ public class Striker : MonoBehaviour
     public AudioSource shot;
 
     private float lastShoot;
+	private AmoComponent amoComponent;
 
 	public void Start()
 	{
 		InitialRay.WorldMotionController = WorldMotionController;
 		pool = new BaseObjectPool(InitialRay.transform, DronManager.transform);
+		amoComponent = GetComponent<AmoComponent>();
 	}
 
 	void Update () {       
 		if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
 		{
-            if (lastShoot + ShootingDelay > Time.time)
+            if (lastShoot + ShootingDelay > Time.time || amoComponent.Amo < 1)
                 return;
 
             lastShoot = Time.time;
-            Ray ray = Camera.ScreenPointToRay(Input.mousePosition);
+			amoComponent.Change(-1);
+			Ray ray = Camera.ScreenPointToRay(Input.mousePosition);
 
             //shot.Play();
 			RaycastHit raycastHit;

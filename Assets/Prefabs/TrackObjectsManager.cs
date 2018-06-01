@@ -47,7 +47,7 @@ public class TrackObjectsManager : MonoBehaviour
 	public GameObject[] InitialCars;
 	public GameObject[] InitialKits;
 
-	private readonly Dictionary<Transform, SeriesInfo> carsToSeries = new Dictionary<Transform, SeriesInfo>();
+	private readonly Dictionary<Transform, SeriesInfo> seriesToSeriesInfo = new Dictionary<Transform, SeriesInfo>();
 
 	private BaseObjectPool[] carPools;
 	private BaseObjectPool[] kitsPools;
@@ -62,9 +62,9 @@ public class TrackObjectsManager : MonoBehaviour
 		InitDefaultTrack();
 	}
 
-	internal float GetNextFreeX(Transform transform)
+	internal float GetNextFreeX(Transform seriesTransform)
 	{
-		SeriesInfo nextSeries = carsToSeries[transform].NextSeries;
+		SeriesInfo nextSeries = seriesToSeriesInfo[seriesTransform].NextSeries;
 		PoolingPair?[] cars = nextSeries.Cars;
 		for (int i = 0; i < cars.Length; i++)
 		{
@@ -72,6 +72,11 @@ public class TrackObjectsManager : MonoBehaviour
 				return MapController.LeftRowX + i * MapController.RowWidth;
 		}
 		throw new System.InvalidOperationException();
+	}
+
+	public void ReleaseKit(Transform seriesTransform)
+	{
+		seriesToSeriesInfo[seriesTransform].Kit.Value.Release();
 	}
 
 	private BaseObjectPool[] CreatePool(GameObject[] initialObjects, Transform parentTransform)
@@ -88,7 +93,7 @@ public class TrackObjectsManager : MonoBehaviour
 	private void Release(Transform seriesTransform, SeriesInfo seriesInfo)
 	{
 		seriesPool.Release(seriesTransform);
-		var cars = seriesInfo.Cars;
+		PoolingPair?[] cars = seriesInfo.Cars;
 		for (int i = 0; i < cars.Length; i++)
 		{
 			PoolingPair? car = cars[i];
@@ -96,7 +101,6 @@ public class TrackObjectsManager : MonoBehaviour
 			{
 				PoolingPair carValue = car.Value;
 				carValue.Release();
-				carsToSeries.Remove(carValue.PooledObject);
 				carValue.PooledObject.transform.SetParent(null);
 			}
 		}
@@ -105,6 +109,7 @@ public class TrackObjectsManager : MonoBehaviour
 			seriesInfo.Kit.Value.Release();
 			seriesInfo.Kit = null;
 		}
+		seriesToSeriesInfo.Remove(seriesTransform);
 		PushToTheEnd();
 	}
 
@@ -114,6 +119,7 @@ public class TrackObjectsManager : MonoBehaviour
 		var seriesInfo = new SeriesInfo(MapController.RowCount, this, newSeriesTransform);
 		AddCarsToSeries(seriesInfo);
 		AddKitsToSeries(seriesInfo);
+		seriesToSeriesInfo.Add(newSeriesTransform, seriesInfo);
 		WorldMotionController.Add(newSeriesTransform, seriesInfo);
 		return seriesInfo;
 	}
@@ -137,7 +143,6 @@ public class TrackObjectsManager : MonoBehaviour
 				carTransform.SetParent(seriesTransform);
 				carTransform.localPosition = new Vector3(MapController.GetTrackX(i), carPool.InitialObjectTransform.position.y, 0);
 				cars[i] = new PoolingPair(carTransform, carPool);
-				carsToSeries.Add(carTransform, seriesInfo);
 			}
 		}
 	}

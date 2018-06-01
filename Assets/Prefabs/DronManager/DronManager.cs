@@ -6,7 +6,7 @@ public class DronManager : MonoBehaviour, IReleaserUpdater
 	public float VerticalSpeed = 2;
 	public float ShootingDeltaTime = 1f;
 	public float DistanceOfDaamage = 20f;
-	public float DamegePerShot = 1f;
+	public float DamegePerShot = 2f;
 	public float ProducingInterval = 5;
 
 	public RunnerController Target;
@@ -15,7 +15,6 @@ public class DronManager : MonoBehaviour, IReleaserUpdater
 	public Transform InitialDrone;
 	public Explosion InitialEplosion;
 
-	private Health health;
 	private BaseObjectPool dronePool;
 	private BaseObjectPool explosionPool;
 	private float lastActivationTime;
@@ -27,7 +26,6 @@ public class DronManager : MonoBehaviour, IReleaserUpdater
 		lastActivationTime = Time.time;
 		dronePool = new BaseObjectPool(InitialDrone, transform);
 		explosionPool = new BaseObjectPool(InitialEplosion.transform, transform);
-		health = Target.GetComponent<Health>();
 	}
 	
 	void Update ()
@@ -102,7 +100,7 @@ public class DronManager : MonoBehaviour, IReleaserUpdater
 			if ((droneTransform.position - Target.transform.position).magnitude < DistanceOfDaamage)
 			{
 				lastShootTime = currentTime;
-				health.HP -= DamegePerShot;
+				Target.HealthComponent.Change(-DamegePerShot);
 			}
 		}
 	}

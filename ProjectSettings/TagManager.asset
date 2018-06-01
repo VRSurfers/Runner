@@ -21,8 +21,8 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
+  - AmoKitsLayer
+  - MedKitsLayer
   - DroneLayer
   - RunnerLayer
   - CarLayer

@@ -10,10 +10,24 @@ public partial class RunnerController : MonoBehaviour
 	private KickTracker kickTracker;
     private float? sideSpeed;
 	private bool isOnCollision;
+	private HealthComponent healthComponent;
+	private AmoComponent amoComponent;
+
+	public HealthComponent HealthComponent
+	{
+		get { return healthComponent; }
+	}
+
+	public AmoComponent AmoComponent
+	{
+		get { return amoComponent; }
+	}
 
 	private void Awake()
 	{
 		kickTracker = new KickTracker(RunnerModel);
+		healthComponent = GetComponent<HealthComponent>();
+		amoComponent = GetComponent<AmoComponent>();
 	}
 
 	void Update()
