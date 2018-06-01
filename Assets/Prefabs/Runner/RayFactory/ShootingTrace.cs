@@ -2,6 +2,7 @@
 
 public class ShootingTrace : MonoBehaviour
 {
+	[HideInInspector]
 	public WorldMotionController WorldMotionController;
 	public float Duration = 3;
 	private float awakeTime;

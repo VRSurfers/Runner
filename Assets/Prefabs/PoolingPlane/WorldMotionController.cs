@@ -6,8 +6,8 @@ public class WorldMotionController : MonoBehaviour
 {
 	public float Speed = 10f;
 
-	private Dictionary<Transform, IReleaser> movingObjects = new Dictionary<Transform, IReleaser>();
-	private Dictionary<Transform, IReleaserUpdater> updatingObjects = new Dictionary<Transform, IReleaserUpdater>();
+	private readonly Dictionary<Transform, IReleaser> movingObjects = new Dictionary<Transform, IReleaser>();
+	private readonly Dictionary<Transform, IReleaserUpdater> updatingObjects = new Dictionary<Transform, IReleaserUpdater>();
 
 	private void Update()
     {

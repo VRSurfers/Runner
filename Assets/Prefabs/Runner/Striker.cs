@@ -4,7 +4,7 @@ public class Striker : MonoBehaviour
 {
 	public WorldMotionController WorldMotionController;
 	public DronManager DronManager;
-	public Transform InitialRay;
+	public ShootingTrace InitialRay;
     public float ShootingDelay = 1f;
 	private BaseObjectPool pool;
 	public Camera Camera;
@@ -14,7 +14,8 @@ public class Striker : MonoBehaviour
 
 	public void Start()
 	{
-		pool = new BaseObjectPool(InitialRay, DronManager.transform);
+		InitialRay.WorldMotionController = WorldMotionController;
+		pool = new BaseObjectPool(InitialRay.transform, DronManager.transform);
 	}
 
 	void Update () {       
