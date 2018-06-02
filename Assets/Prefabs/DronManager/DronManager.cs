@@ -47,7 +47,7 @@ public class DronManager : MonoBehaviour, IReleaserUpdater
 
 	private void ProduceDrone()
 	{
-		const float offset = 3f;
+		const float offset = 1f;
 		float x;
 		if (Random.Range(0, 2) == 1)
 			x = MapController.LeftRowX - offset;
@@ -100,7 +100,7 @@ public class DronManager : MonoBehaviour, IReleaserUpdater
 			if ((droneTransform.position - Target.transform.position).magnitude < DistanceOfDaamage)
 			{
 				lastShootTime = currentTime;
-				Target.HealthComponent.Change(-DamegePerShot);
+				Target.Health.Change(-DamegePerShot);
 			}
 		}
 	}

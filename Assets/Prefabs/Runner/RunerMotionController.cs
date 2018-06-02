@@ -7,8 +7,9 @@ public partial class RunerMotionController : MonoBehaviour
 	public MapController MapController;
 	public float MaxSideSpeed = 2;
 
-	public HealthComponent HealthComponent { get; private set; }
-	public AmoComponent AmoComponent { get; private set; }
+	public ScoresCounter Health;
+	public ScoresCounter Amo;
+	public ScoresCounter Jumps;
 
 	private KickTracker kickTracker;
     private float? sideSpeed;
@@ -17,19 +18,21 @@ public partial class RunerMotionController : MonoBehaviour
 	private void Awake()
 	{
 		kickTracker = new KickTracker(RunnerModel);
-		HealthComponent = GetComponent<HealthComponent>();
-		AmoComponent = GetComponent<AmoComponent>();
 	}
 
 	public void ProcessMotionStep(ref InputArgs inputArgs)
 	{
-		float? executedMotion = inputArgs.Horizontal;
 		if (kickTracker.IsOnKick)
 		{
 			kickTracker.Step();
 			return;
+		} else if (inputArgs.Jumped && Jumps.Score > 0)
+		{
+			Jumps.Change(-1);
+			kickTracker.KickTo(transform.position.x);
 		}
 
+		float? executedMotion = inputArgs.Horizontal;
 		if (isOnCollision)
 			executedMotion = null; // prevents moving into coolider after rebound
 

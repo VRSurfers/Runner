@@ -46,6 +46,7 @@ public class TrackObjectsManager : MonoBehaviour
 	public Collider SeriesObjectCollider;
 	public GameObject[] InitialCars;
 	public GameObject[] InitialKits;
+	public float KitsProbability = 0.5f;
 
 	private readonly Dictionary<Transform, SeriesInfo> seriesToSeriesInfo = new Dictionary<Transform, SeriesInfo>();
 
@@ -149,8 +150,7 @@ public class TrackObjectsManager : MonoBehaviour
 
 	private void AddKitsToSeries(SeriesInfo seriesInfo)
 	{
-		const float kitsProba = 0.4f;
-		if (Random.value < kitsProba)
+		if (Random.value < KitsProbability)
 		{
 			BaseObjectPool randomPool = kitsPools[Random.Range(0, kitsPools.Length)];
 			Transform kit = randomPool.Engage(new Vector3());

@@ -23,6 +23,7 @@ static class KnowLayers
 	public const int CarLayer = 19;
 	public const int MedKitsLayer = 16;
 	public const int AmoKitsLayer = 15;
+	public const int JumpKitsLayer = 14;
 }
 
 static class CooliderBehaviour
@@ -31,7 +32,8 @@ static class CooliderBehaviour
 	{
 		{ KnowLayers.CarLayer, CollisionWithCar},
 		{ KnowLayers.MedKitsLayer, Healing},
-		{ KnowLayers.AmoKitsLayer, Amo}
+		{ KnowLayers.AmoKitsLayer, Amo},
+		{ KnowLayers.JumpKitsLayer, Jump}
 	};
 
 	public static void OnEnter(Collider collider, BarrierHandler barrierHandler)
@@ -61,23 +63,27 @@ static class CooliderBehaviour
 		}
 	}
 
-
-
-
-
 	public const float HPinKit = 20f;
 
 	private static void Healing(BarrierHandler barrierHandler, Collider collider)
 	{
-		barrierHandler.Runner.HealthComponent.Change(HPinKit);
+		barrierHandler.Runner.Health.Change(HPinKit);
 		barrierHandler.TrackObjectsManager.ReleaseKit(collider.transform.parent.transform);
 	}
 
-	public const int AmoInKit = 5;
+	public const int AmoInKit = 3;
 
 	private static void Amo(BarrierHandler barrierHandler, Collider collider)
 	{
-		barrierHandler.Runner.AmoComponent.Change(AmoInKit);
+		barrierHandler.Runner.Amo.Change(AmoInKit);
+		barrierHandler.TrackObjectsManager.ReleaseKit(collider.transform.parent.transform);
+	}
+
+	public const int JumpInKit = 2;
+
+	private static void Jump(BarrierHandler barrierHandler, Collider collider)
+	{
+		barrierHandler.Runner.Jumps.Change(AmoInKit);
 		barrierHandler.TrackObjectsManager.ReleaseKit(collider.transform.parent.transform);
 	}
 }

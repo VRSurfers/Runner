@@ -11,18 +11,18 @@ public class Striker : MonoBehaviour
     public AudioSource shot;
 
     private float lastShoot;
-	private AmoComponent amoComponent;
+	private ScoresCounter amoComponent;
 
 	public void Start()
 	{
 		InitialRay.WorldMotionController = WorldMotionController;
 		pool = new BaseObjectPool(InitialRay.transform, DronManager.transform);
-		amoComponent = GetComponent<AmoComponent>();
+		amoComponent = GetComponent<RunerMotionController>().Amo;
 	}
 
 	internal void Shot()
 	{
-        if (lastShoot + ShootingDelay > Time.time || amoComponent.Amo < 1)
+        if (lastShoot + ShootingDelay > Time.time || amoComponent.Score < 1)
             return;
 
         lastShoot = Time.time;
