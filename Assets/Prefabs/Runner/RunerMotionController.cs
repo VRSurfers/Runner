@@ -11,6 +11,11 @@ public partial class RunerMotionController : MonoBehaviour
 	public ScoresCounter Amo;
 	public ScoresCounter Jumps;
 
+	public AudioSource FastCollision;
+	public AudioSource StrongCollision;
+	public AudioSource Jump;
+	public AudioSource Landing;
+
 	private KickTracker kickTracker;
     private float? sideSpeed;
 	private bool isOnCollision;
@@ -28,6 +33,7 @@ public partial class RunerMotionController : MonoBehaviour
 			return;
 		} else if (inputArgs.Jumped && Jumps.Score > 0)
 		{
+			Jump.Play();
 			Jumps.Change(-1);
 			kickTracker.KickTo(transform.position.x);
 		}
@@ -114,6 +120,7 @@ public partial class RunerMotionController : MonoBehaviour
 
 	internal void FrontCollision(float x)
     {
+		StrongCollision.Play();
 		kickTracker.KickTo(x);
         sideSpeed = null;
     }
@@ -129,5 +136,6 @@ public partial class RunerMotionController : MonoBehaviour
 
 		if (!kickTracker.IsOnKick)
 			sideSpeed = -(sideSpeed.Value);
-    }
+		FastCollision.Play();
+	}
 }

@@ -6,6 +6,7 @@ public class ScoresCounter : MonoBehaviour
 	public float MaxScore;
 
 	public Text ScoreText;
+	public AudioSource PickUpSound;
 
 	private float currentScore = 1000;
 	public float Score
@@ -31,6 +32,10 @@ public class ScoresCounter : MonoBehaviour
 
 	public void Change(float delta)
 	{
+		if (delta > 0)
+			PickUpSound.Play(); // TODO: yeah I know that's wrong place for sound.
+
+
 		float newScore = currentScore + delta;
 		if (newScore > MaxScore)
 		{

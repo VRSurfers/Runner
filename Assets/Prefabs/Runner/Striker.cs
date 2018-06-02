@@ -29,7 +29,7 @@ public class Striker : MonoBehaviour
 		amoComponent.Change(-1);
 		Ray ray = Camera.ScreenPointToRay(Input.mousePosition);
 
-        //shot.Play();
+        shot.Play();
 		RaycastHit raycastHit;
         Vector3 rayStopPoint;
         const float shootingLength = 1000f;
