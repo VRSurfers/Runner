@@ -41,7 +41,7 @@ public class RunerController : MonoBehaviour {
 	{
 		internal static void GetInputArgs(out InputArgs inputArgs, StringBuilder message)
 		{
-#if false//UNITY_EDITOR
+#if UNITY_EDITOR
 			PCInput(out inputArgs);
 #elif UNITY_IOS || UNITY_ANDROID
 			MobileInput(out inputArgs, message);
