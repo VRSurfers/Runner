@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public partial class RunnerController
+public partial class RunerMotionController
 {
 	class KickTracker
     {

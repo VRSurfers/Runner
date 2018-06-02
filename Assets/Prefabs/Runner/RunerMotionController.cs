@@ -1,41 +1,29 @@
 ﻿using System;
 using UnityEngine;
 
-public partial class RunnerController : MonoBehaviour
+public partial class RunerMotionController : MonoBehaviour
 {
 	public Transform RunnerModel;
 	public MapController MapController;
 	public float MaxSideSpeed = 2;
 
+	public HealthComponent HealthComponent { get; private set; }
+	public AmoComponent AmoComponent { get; private set; }
+
 	private KickTracker kickTracker;
     private float? sideSpeed;
 	private bool isOnCollision;
-	private HealthComponent healthComponent;
-	private AmoComponent amoComponent;
-
-	public HealthComponent HealthComponent
-	{
-		get { return healthComponent; }
-	}
-
-	public AmoComponent AmoComponent
-	{
-		get { return amoComponent; }
-	}
 
 	private void Awake()
 	{
 		kickTracker = new KickTracker(RunnerModel);
-		healthComponent = GetComponent<HealthComponent>();
-		amoComponent = GetComponent<AmoComponent>();
+		HealthComponent = GetComponent<HealthComponent>();
+		AmoComponent = GetComponent<AmoComponent>();
 	}
 
-	void Update()
+	public void ProcessMotionStep(ref InputArgs inputArgs)
 	{
-		float? horizontal;
-		float? vertical;
-		InputController.GetmovementInfo(out horizontal, out vertical);
-
+		float? executedMotion = inputArgs.Horizontal;
 		if (kickTracker.IsOnKick)
 		{
 			kickTracker.Step();
@@ -43,12 +31,12 @@ public partial class RunnerController : MonoBehaviour
 		}
 
 		if (isOnCollision)
-			horizontal = null; // prevents moving into coolider after rebound
+			executedMotion = null; // prevents moving into coolider after rebound
 
-		ProcessMotion(horizontal);
+		Move(executedMotion);
 	}
 
-	private void ProcessMotion(float? newSideSpeedSign)
+	private void Move(float? newSideSpeedSign)
 	{
 		float leftRowX = MapController.LeftRowX;
 		float rowWidth = MapController.RowWidth;

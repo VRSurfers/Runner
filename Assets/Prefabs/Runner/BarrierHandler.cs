@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BarrierHandler : MonoBehaviour
 {
-    public RunnerController Runner;
+    public RunerMotionController Runner;
 	public TrackObjectsManager TrackObjectsManager;
 
     private void OnTriggerEnter(Collider other)
@@ -47,7 +47,7 @@ static class CooliderBehaviour
 
 	private static void CollisionWithCar(BarrierHandler barrierHandler, Collider collider)
 	{
-		RunnerController runner = barrierHandler.Runner;
+		RunerMotionController runner = barrierHandler.Runner;
 		Vector3 runnerPosition = runner.transform.position;
 		Vector3 carPosition = collider.transform.position;
 

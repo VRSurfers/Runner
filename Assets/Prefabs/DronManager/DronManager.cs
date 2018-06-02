@@ -9,7 +9,7 @@ public class DronManager : MonoBehaviour, IReleaserUpdater
 	public float DamegePerShot = 2f;
 	public float ProducingInterval = 5;
 
-	public RunnerController Target;
+	public RunerMotionController Target;
 	public MapController MapController;
 	public WorldMotionController WorldMotionController;
 	public Transform InitialDrone;

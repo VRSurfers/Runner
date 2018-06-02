@@ -394,7 +394,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1024840904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1130,3 +1130,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 10
+--- !u!1 &1971364227 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1133543100056208, guid: 1116356557efd374f80f53817f6403a0,
+    type: 2}
+  m_PrefabInternal: {fileID: 504259480}
+--- !u!114 &1971364228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1971364227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cfe991a1544ab147b86fdd97661d555, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RunerMotionController: {fileID: 211766590}
+  Striker: {fileID: 1971364231}
+--- !u!114 &1971364231 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114957439054696330, guid: 1116356557efd374f80f53817f6403a0,
+    type: 2}
+  m_PrefabInternal: {fileID: 504259480}
+  m_Script: {fileID: 11500000, guid: 85339fd48602782448a5763afb4236dd, type: 3}
