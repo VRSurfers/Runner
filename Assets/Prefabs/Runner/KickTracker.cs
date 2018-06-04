@@ -14,6 +14,7 @@ public partial class RunerMotionController
 
 		private readonly Transform transformWithCamera;
 		private readonly Transform transformOfModel;
+		private readonly AudioSource landing;
 		private readonly float floor;
 
 		private float targetX;
@@ -24,9 +25,10 @@ public partial class RunerMotionController
 		private float flyTime;
 		private float angle = 0;
 
-		public KickTracker(Transform transformOfModel)
+		public KickTracker(Transform transformOfModel, AudioSource landing)
 		{
 			this.transformOfModel = transformOfModel;
+			this.landing = landing;
 			transformWithCamera = transformOfModel.parent.transform;
 			floor = transformWithCamera.transform.position.y;
 		}
@@ -104,6 +106,7 @@ public partial class RunerMotionController
 				oldPosition.y = floor;
 				//transformOfModel.localRotation = Quaternion.Euler(0, 0, 0);
 				FlyType = FlyType.None;
+				landing.Play();
 			}
 			else
 			{

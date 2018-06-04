@@ -6,6 +6,9 @@ public partial class RunerMotionController : MonoBehaviour
 	public Transform RunnerModel;
 	public MapController MapController;
 	public float MaxSideSpeed = 2;
+	public float SideCollisionHealthDamage = 30;
+	public float ForwardCollisionHealthDamage = 100;
+
 
 	public ScoresCounter Health;
 	public ScoresCounter Amo;
@@ -22,7 +25,7 @@ public partial class RunerMotionController : MonoBehaviour
 
 	private void Awake()
 	{
-		kickTracker = new KickTracker(RunnerModel);
+		kickTracker = new KickTracker(RunnerModel, Landing);
 	}
 
 	public void ProcessMotionStep(ref InputArgs inputArgs)
@@ -123,6 +126,7 @@ public partial class RunerMotionController : MonoBehaviour
 		if (kickTracker.FlyType == FlyType.AfterCash)
 			return;
 
+		Health.Change(-ForwardCollisionHealthDamage);
 		StrongCollision.Play();
 		kickTracker.KickByCar(x);
         sideSpeed = null;
@@ -141,6 +145,7 @@ public partial class RunerMotionController : MonoBehaviour
 		isSideOnCollision = true;
 		if (kickTracker.FlyType == FlyType.None)
 			sideSpeed = -(sideSpeed.Value);
+		Health.Change(-SideCollisionHealthDamage);
 		FastCollision.Play();
 	}
 }

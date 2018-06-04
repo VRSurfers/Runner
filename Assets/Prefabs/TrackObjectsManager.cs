@@ -77,7 +77,9 @@ public class TrackObjectsManager : MonoBehaviour
 
 	public void ReleaseKit(Transform seriesTransform)
 	{
-		seriesToSeriesInfo[seriesTransform].Kit.Value.Release();
+		SeriesInfo seriesinfo = seriesToSeriesInfo[seriesTransform];
+		seriesinfo.Kit.Value.Release();
+		seriesinfo.Kit = null;
 	}
 
 	private BaseObjectPool[] CreatePool(GameObject[] initialObjects, Transform parentTransform)
@@ -108,6 +110,7 @@ public class TrackObjectsManager : MonoBehaviour
 		if (seriesInfo.Kit.HasValue)
 		{
 			seriesInfo.Kit.Value.Release();
+			seriesInfo.Kit.Value.PooledObject.transform.SetParent(null);
 			seriesInfo.Kit = null;
 		}
 		seriesToSeriesInfo.Remove(seriesTransform);
@@ -154,7 +157,7 @@ public class TrackObjectsManager : MonoBehaviour
 		{
 			BaseObjectPool randomPool = kitsPools[Random.Range(0, kitsPools.Length)];
 			Transform kit = randomPool.Engage(new Vector3());
-			kit.transform.SetParent(seriesInfo.SeriesTransform);
+			kit.SetParent(seriesInfo.SeriesTransform);
 			kit.localPosition = new Vector3(MapController.GetTrackX(MapController.GetRandomTrackNumber()), 0.5f, MapController.DistanceByZ * 0.4f);
 			seriesInfo.Kit = new PoolingPair(kit, randomPool);
 		}
