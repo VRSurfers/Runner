@@ -20,12 +20,14 @@ public partial class RunerMotionController : MonoBehaviour
 	public AudioSource Landing;
 
 	private KickTracker kickTracker;
-    private float? sideSpeed;
+	private BouncingTracker bouncingTracker;
+	private float? sideSpeed;
 	private bool isSideOnCollision;
 
 	private void Awake()
 	{
 		kickTracker = new KickTracker(RunnerModel, Landing);
+		bouncingTracker = new BouncingTracker(RunnerModel);
 	}
 
 	public void ProcessMotionStep(ref InputArgs inputArgs)
@@ -45,6 +47,7 @@ public partial class RunerMotionController : MonoBehaviour
 		if (isSideOnCollision)
 			executedMotion = null; // prevents moving into coolider after rebound
 
+		bouncingTracker.Tick();
 		Move(executedMotion);
 	}
 
@@ -147,5 +150,29 @@ public partial class RunerMotionController : MonoBehaviour
 			sideSpeed = -(sideSpeed.Value);
 		Health.Change(-SideCollisionHealthDamage);
 		FastCollision.Play();
+	}
+
+	class BouncingTracker
+	{
+		private readonly Transform moelForBounsing;
+		private float sign = -1f;
+		private float bouncePerSeconfDelta = 0.03f;
+
+		public BouncingTracker(Transform moelForBounsing)
+		{
+			this.moelForBounsing = moelForBounsing;
+		}
+
+		public void Tick()
+		{
+			Vector3 scale = moelForBounsing.transform.localScale;
+			float newValue = scale.y + sign * bouncePerSeconfDelta * 2 * Time.deltaTime;
+			if (newValue <= 1f - bouncePerSeconfDelta || newValue >= 1f + bouncePerSeconfDelta)
+			{
+				sign *= -1;
+			}
+			scale.y = newValue;
+			moelForBounsing.transform.localScale = scale;
+		}
 	}
 }
