@@ -13,7 +13,7 @@ public class DronManager : MonoBehaviour, IReleaserUpdater
 	public MapController MapController;
 	public WorldMotionController WorldMotionController;
 	public Transform InitialDrone;
-	public Explosion InitialEplosion;
+	public Explosion1 InitialEplosion;
 
 	private BaseObjectPool dronePool;
 	private BaseObjectPool explosionPool;
