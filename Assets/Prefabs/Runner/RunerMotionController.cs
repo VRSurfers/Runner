@@ -18,7 +18,7 @@ public partial class RunerMotionController : MonoBehaviour
 
 	private KickTracker kickTracker;
     private float? sideSpeed;
-	private bool isOnCollision;
+	private bool isSideOnCollision;
 
 	private void Awake()
 	{
@@ -27,7 +27,7 @@ public partial class RunerMotionController : MonoBehaviour
 
 	public void ProcessMotionStep(ref InputArgs inputArgs)
 	{
-		if (kickTracker.IsOnKick)
+		if (kickTracker.FlyType != FlyType.None)
 		{
 			kickTracker.Step();
 			return;
@@ -35,11 +35,11 @@ public partial class RunerMotionController : MonoBehaviour
 		{
 			Jump.Play();
 			Jumps.Change(-1);
-			kickTracker.KickTo(transform.position.x);
+			kickTracker.Jump();
 		}
 
 		float? executedMotion = inputArgs.Horizontal;
-		if (isOnCollision)
+		if (isSideOnCollision)
 			executedMotion = null; // prevents moving into coolider after rebound
 
 		Move(executedMotion);
@@ -120,21 +120,26 @@ public partial class RunerMotionController : MonoBehaviour
 
 	internal void FrontCollision(float x)
     {
+		if (kickTracker.FlyType == FlyType.AfterCash)
+			return;
+
 		StrongCollision.Play();
-		kickTracker.KickTo(x);
+		kickTracker.KickByCar(x);
         sideSpeed = null;
     }
 
 	internal void StopCollision()
 	{
-		isOnCollision = false;
+		isSideOnCollision = false;
 	}
 
 	internal void SideCollision()
     {
-		isOnCollision = true;
+		if (isSideOnCollision)
+			return;
 
-		if (!kickTracker.IsOnKick)
+		isSideOnCollision = true;
+		if (kickTracker.FlyType == FlyType.None)
 			sideSpeed = -(sideSpeed.Value);
 		FastCollision.Play();
 	}

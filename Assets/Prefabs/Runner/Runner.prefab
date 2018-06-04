@@ -833,8 +833,9 @@ GameObject:
   - component: {fileID: 95881351242886860}
   - component: {fileID: 114496026202348494}
   - component: {fileID: 54958602973979228}
-  - component: {fileID: 65051493080808854}
   - component: {fileID: 114901958402332848}
+  - component: {fileID: 136898779487921604}
+  - component: {fileID: 136406297022346938}
   m_Layer: 18
   m_Name: Sci-Fi_Soldier
   m_TagString: Untagged
@@ -2234,18 +2235,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &65051493080808854
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1824947893841740}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.5, y: 0.5, z: 1}
-  m_Center: {x: 0, y: 0.57, z: 0.23}
 --- !u!65 &65161094390902096
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -2903,6 +2892,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxScore: 3
   ScoreText: {fileID: 0}
+  PickUpSound: {fileID: 82389869396320834}
 --- !u!114 &114596356437658612
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2924,7 +2914,6 @@ MonoBehaviour:
   StrongCollision: {fileID: 82950450289530960}
   Jump: {fileID: 82811962329306012}
   Landing: {fileID: 82991483973617458}
-  PickUp: {fileID: 82389869396320834}
 --- !u!114 &114731911642107850
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2938,6 +2927,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxScore: 5
   ScoreText: {fileID: 0}
+  PickUpSound: {fileID: 82389869396320834}
 --- !u!114 &114799575002819862
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2951,6 +2941,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxScore: 1000
   ScoreText: {fileID: 0}
+  PickUpSound: {fileID: 82389869396320834}
 --- !u!114 &114901958402332848
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2988,6 +2979,32 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1237906489693318}
   m_Enabled: 1
+--- !u!136 &136406297022346938
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1824947893841740}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.21
+  m_Height: 1.26
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0.14}
+--- !u!136 &136898779487921604
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1824947893841740}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.3
+  m_Height: 0.92
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.53, z: 0.09}
 --- !u!137 &137199343185144206
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
