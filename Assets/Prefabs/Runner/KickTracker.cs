@@ -112,9 +112,7 @@ public partial class RunerMotionController
 				//transformOfModel.localRotation = Quaternion.Euler(AngleSpeed * timePassed, 0, 0);
 			}
 			angle = angle + AngleSpeed * Time.deltaTime;
-			Debug.Log(angle);
 			transformOfModel.localRotation = Quaternion.Euler(angle >= 360 ? 0 : angle, 0, 0);
-			Debug.Log(transformOfModel.localRotation);
 			transformWithCamera.position = oldPosition;
 		}
     }
