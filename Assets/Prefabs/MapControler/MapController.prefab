@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e774afb687ef3a4d8b02d1297692716, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CarSeriesCount: 5
+  CarSeriesCount: 6
   RowCount: 3
   DistanceByZ: 15
   LeftRowX: -1.9

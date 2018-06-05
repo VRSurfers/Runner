@@ -354,7 +354,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1751773646336560
 GameObject:
   m_ObjectHideFlags: 0
@@ -2084,8 +2084,8 @@ MonoBehaviour:
   VerticalSpeed: 2
   ShootingDeltaTime: 1
   DistanceOfDaamage: 20
-  DamegePerShot: 1
-  ProducingInterval: 5
+  DamegePerShot: 10
+  ProducingInterval: 10
   Target: {fileID: 0}
   MapController: {fileID: 0}
   WorldMotionController: {fileID: 0}
