@@ -20,14 +20,14 @@ public class Striker : MonoBehaviour
 		amoComponent = GetComponent<RunerMotionController>().Amo;
 	}
 
-	internal void Shot()
+	internal void Shot(Vector3 firePos)
 	{
         if (lastShoot + ShootingDelay > Time.time || amoComponent.Score < 1)
             return;
 
         lastShoot = Time.time;
 		amoComponent.Change(-1);
-		Ray ray = Camera.ScreenPointToRay(Input.mousePosition);
+		Ray ray = Camera.ScreenPointToRay(firePos);
 
         shot.Play();
 		RaycastHit raycastHit;

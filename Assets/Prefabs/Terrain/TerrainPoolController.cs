@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class TerrainPoolController : MonoBehaviour, IReleaser
+public class TerrainPoolController : MonoBehaviour, IReleaserUpdater
 {
 	public WorldMotionController WorldMotionController;
 	public float OffsetFromOther;
@@ -20,6 +20,12 @@ public class TerrainPoolController : MonoBehaviour, IReleaser
 		objTransform.position = new Vector3(0, 0, LastTerain.position.z + OffsetFromOther);
 		WorldMotionController.Add(objTransform, this);
 		LastTerain = objTransform;
+	}
+
+	public void UpdateManual(Transform objectForUpdate)
+	{
+		Vector3 displacemnt = WorldMotionController.Speed * (-Time.deltaTime / -2) * Vector3.forward;
+		objectForUpdate.position += displacemnt;
 	}
 }
 

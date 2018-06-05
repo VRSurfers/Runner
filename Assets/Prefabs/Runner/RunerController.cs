@@ -5,10 +5,10 @@ using UnityEngine;
 public struct InputArgs
 {
 	public readonly float? Horizontal;
-	public readonly bool Fired;
+	public readonly Vector3? Fired;
 	public readonly bool Jumped;
 
-	public InputArgs(float? horizontal, bool fired, bool jumped)
+	public InputArgs(float? horizontal, Vector3? fired, bool jumped)
 	{
 		Horizontal = horizontal;
 		Fired = fired;
@@ -25,7 +25,7 @@ public class RunerController : MonoBehaviour {
 
 	public void OnGUI()
 	{
-		GUILayout.Label(message.ToString());
+		//GUILayout.Label(message.ToString());
 	}
 
 	void Update ()
@@ -33,8 +33,8 @@ public class RunerController : MonoBehaviour {
 		InputArgs inputArgs = new InputArgs();
 		InputController.GetInputArgs(out inputArgs, message);
 		RunerMotionController.ProcessMotionStep(ref inputArgs);
-		if (inputArgs.Fired)
-			Striker.Shot();
+		if (inputArgs.Fired.HasValue)
+			Striker.Shot(inputArgs.Fired.Value);
 	}
 
 	class InputController
@@ -60,9 +60,16 @@ public class RunerController : MonoBehaviour {
 				horizontal = +1f;
 			}
 
+			Vector3? firePosition = null;
+			if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
+			{
+				firePosition = Input.mousePosition;
+			}
+
+
 			inputArgs = new InputArgs(
 				horizontal,
-				Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1),
+				firePosition,
 				Input.GetKeyDown(KeyCode.W));
 		}
 
@@ -91,7 +98,7 @@ public class RunerController : MonoBehaviour {
 					Vector2 delta = fingerUp - fingerDown;
 					if (delta.magnitude < FireDelta)
 					{
-						inputArgs = new InputArgs(null, true, false);
+						inputArgs = new InputArgs(null, (fingerUp + fingerDown) / 2, false);
 						return;
 					}
 
@@ -102,18 +109,18 @@ public class RunerController : MonoBehaviour {
 					{
 						if (xAbs > Screen.width * ScreenPercent)
 						{
-							inputArgs = new InputArgs(Mathf.Sign(delta.x), false, false);
+							inputArgs = new InputArgs(Mathf.Sign(delta.x), null, false);
 							return;
 						}
 					}
 					else
 					{
-						inputArgs = new InputArgs(null, false, delta.y > 0);
+						inputArgs = new InputArgs(null, null, delta.y > 0);
 						return;
 					}
 				}
 			}
-			inputArgs = new InputArgs(null, false, false);
+			inputArgs = new InputArgs(null, null, false);
 		}
 	}
 
