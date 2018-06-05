@@ -20,7 +20,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4935881482313246}
   - component: {fileID: 114345727511055628}
-  - component: {fileID: 114128371123169028}
   m_Layer: 21
   m_Name: MapController
   m_TagString: Untagged
@@ -41,18 +40,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114128371123169028
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1880817695532596}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f428d399e1ac6184f973667c85b1e955, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Speed: 10
 --- !u!114 &114345727511055628
 MonoBehaviour:
   m_ObjectHideFlags: 1

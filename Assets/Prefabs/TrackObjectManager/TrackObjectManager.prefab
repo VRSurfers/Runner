@@ -2285,7 +2285,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.15, y: 0.08, z: 0.19}
+  m_Size: {x: 0.15, y: 0.06, z: 0.19}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &65050361364922646
 BoxCollider:
@@ -2309,7 +2309,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.115, y: 0.11, z: 0.19}
+  m_Size: {x: 0.115, y: 0.05, z: 0.19}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &65298877349808046
 BoxCollider:
@@ -2333,7 +2333,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.15, y: 0.19, z: 0.35}
+  m_Size: {x: 0.15, y: 0.08, z: 0.35}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &65770187877634762
 BoxCollider:
@@ -2345,7 +2345,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.34, y: 0.21, z: 0.62}
+  m_Size: {x: 0.34, y: 0.14, z: 0.62}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &65955178515586538
 BoxCollider:
@@ -2424,6 +2424,7 @@ MonoBehaviour:
   - {fileID: 1175791928733646}
   - {fileID: 1255048471887678}
   - {fileID: 1081910772590432}
+  KitsProbability: 0.5
 --- !u!135 &135077201460177378
 SphereCollider:
   m_ObjectHideFlags: 1

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Explosion1 : MonoBehaviour
+public class Explosion : MonoBehaviour
 {
 	[HideInInspector]
 	public WorldMotionController WorldMotionController;
