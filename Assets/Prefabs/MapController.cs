@@ -8,7 +8,7 @@ public class MapController : MonoBehaviour {
     public float LeftRowX = -2f;
     public float RowWidth = 3.3f;
 
-	public float GetRghtX()
+	public float GetRightTrackX()
 	{
 		return LeftRowX + (RowCount - 1) * RowWidth;
 	}

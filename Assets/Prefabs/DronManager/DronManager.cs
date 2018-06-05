@@ -52,7 +52,7 @@ public class DronManager : MonoBehaviour, IReleaserUpdater
 		if (Random.Range(0, 2) == 1)
 			x = MapController.LeftRowX - offset;
 		else
-			x = MapController.GetRghtX() + offset;
+			x = MapController.GetRightTrackX() + offset;
 		Transform drone = dronePool.Engage(new Vector3(x, 0, 30));
 		WorldMotionController.Add(drone, this);
 	}

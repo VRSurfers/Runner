@@ -8,7 +8,7 @@ public partial class RunerMotionController : MonoBehaviour
 	public float MaxSideSpeed = 2;
 	public float SideCollisionHealthDamage = 30;
 	public float ForwardCollisionHealthDamage = 100;
-
+	public Transform CameraTransform;
 
 	public ScoresCounter Health;
 	public ScoresCounter Amo;
@@ -32,6 +32,10 @@ public partial class RunerMotionController : MonoBehaviour
 
 	public void ProcessMotionStep(ref InputArgs inputArgs)
 	{
+		Vector3 oldCameraPos = CameraTransform.localPosition;
+		oldCameraPos.x = transform.position.x / -5f;
+		CameraTransform.localPosition = oldCameraPos;
+
 		if (kickTracker.FlyType != FlyType.None)
 		{
 			kickTracker.Step();
