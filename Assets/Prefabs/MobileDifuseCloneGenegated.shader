@@ -134,7 +134,7 @@ Shader "Mobile/Diffuse_Clone_Generated" {
 
 		float3 wPos = UnityObjectToViewPos(v.vertex);
 		float distCoeff = wPos.z / 15;
-		float2 directionVector = float2(0.5, -1);
+		float2 directionVector = float2(0.75, -1);
 		distCoeff *= distCoeff;
 		o.pos.x += directionVector.x * distCoeff;
 		o.pos.y += directionVector.y * distCoeff;
