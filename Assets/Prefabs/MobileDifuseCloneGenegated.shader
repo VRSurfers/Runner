@@ -137,7 +137,8 @@ Shader "Mobile/Diffuse_Clone_Generated" {
 		float2 directionVector = float2(0.75, -1);
 		distCoeff *= distCoeff;
 		o.pos.x += directionVector.x * distCoeff;
-		o.pos.y -= directionVector.y * distCoeff;
+		// FIX sign here
+		o.pos.y += directionVector.y * distCoeff;
 
 
 		o.pack0.xy = TRANSFORM_TEX(v.texcoord, _MainTex);
